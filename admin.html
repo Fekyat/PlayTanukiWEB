@@ -317,6 +317,7 @@
   .player-status.pending { color: #f0ad4e; }
   .player-status.approved { color: var(--color-tertiary); }
   .player-status.rejected { color: #e04848; }
+  .player-status.banned { color: #ff4444; font-weight: bold; }
 
   .player-actions {
     display: flex;
@@ -474,6 +475,7 @@
       <button class="tab-btn active" onclick="switchTab('pending')">Ожидают</button>
       <button class="tab-btn" onclick="switchTab('approved')">Одобрены</button>
       <button class="tab-btn" onclick="switchTab('rejected')">Отклонены</button>
+      <button class="tab-btn" onclick="switchTab('banned')">Забанены</button>
       <button class="tab-btn" onclick="switchTab('all')">Все</button>
       <button class="tab-btn" onclick="switchTab('announcements')">Объявления</button>
     </div>
@@ -481,6 +483,7 @@
     <div class="admin-panel show" id="panelPending"></div>
     <div class="admin-panel" id="panelApproved"></div>
     <div class="admin-panel" id="panelRejected"></div>
+    <div class="admin-panel" id="panelBanned"></div>
     <div class="admin-panel" id="panelAll"></div>
     <div class="admin-panel" id="panelAnnouncements"></div>
 
@@ -560,17 +563,20 @@
     var pending = data.filter(function(p) { return p.status === 'pending'; });
     var approved = data.filter(function(p) { return p.status === 'approved'; });
     var rejected = data.filter(function(p) { return p.status === 'rejected'; });
+    var banned = data.filter(function(p) { return p.status === 'banned'; });
 
     renderPlayerPanel('panelPending', pending, true);
     renderPlayerPanel('panelApproved', approved, false);
     renderPlayerPanel('panelRejected', rejected, false);
+    renderPlayerPanel('panelBanned', banned, false);
     renderPlayerPanel('panelAll', data, false);
 
     var tabs = document.querySelectorAll('.tab-btn');
     tabs[0].textContent = 'Ожидают (' + pending.length + ')';
     tabs[1].textContent = 'Одобрены (' + approved.length + ')';
     tabs[2].textContent = 'Отклонены (' + rejected.length + ')';
-    tabs[3].textContent = 'Все (' + data.length + ')';
+    tabs[3].textContent = 'Забанены (' + banned.length + ')';
+    tabs[4].textContent = 'Все (' + data.length + ')';
   }
 
   function renderPlayerPanel(panelId, players, showApproveReject) {
@@ -584,8 +590,9 @@
     players.forEach(function(p) {
       var date = new Date(p.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
       var skinUrl = SUPABASE_URL + '/storage/v1/object/public/skins/' + p.username + '.png';
+      var uid = panelId + '-' + p.id;
 
-      html += '<div class="player-card" id="card-' + p.id + '">';
+      html += '<div class="player-card" id="card-' + uid + '">';
       html += '  <div class="player-top">';
       html += '    <div class="player-info">';
       html += '      <div class="player-name">' + escapeHtml(p.username) + '</div>';
@@ -597,19 +604,19 @@
         html += '    <div class="player-actions">';
         html += '      <button class="mc-btn green sm" onclick="setStatus(\'' + p.id + '\', \'approved\')">Принять</button>';
         html += '      <button class="mc-btn red sm" onclick="setStatus(\'' + p.id + '\', \'rejected\')">Отклонить</button>';
-        html += '      <button class="mc-btn gray sm" onclick="toggleDetails(\'' + p.id + '\')">...</button>';
+        html += '      <button class="mc-btn gray sm" onclick="toggleDetails(\'' + uid + '\')">...</button>';
         html += '    </div>';
       } else {
         html += '    <div class="player-actions">';
         html += '      <div class="player-status ' + p.status + '">' + statusLabel(p.status) + '</div>';
-        html += '      <button class="mc-btn gray sm" onclick="toggleDetails(\'' + p.id + '\')">...</button>';
+        html += '      <button class="mc-btn gray sm" onclick="toggleDetails(\'' + uid + '\')">...</button>';
         html += '    </div>';
       }
 
       html += '  </div>';
 
       // Expandable details
-      html += '  <div class="player-details" id="details-' + p.id + '">';
+      html += '  <div class="player-details" id="details-' + uid + '">';
       html += '    <div class="detail-row">';
       html += '      <span class="detail-label">ID</span>';
       html += '      <span class="detail-value">' + p.id.substring(0, 8) + '...</span>';
@@ -634,6 +641,7 @@
       html += '      <button class="mc-btn green sm" onclick="setStatus(\'' + p.id + '\', \'approved\')">Принять</button>';
       html += '      <button class="mc-btn orange sm" onclick="setStatus(\'' + p.id + '\', \'pending\')">В ожидание</button>';
       html += '      <button class="mc-btn red sm" onclick="setStatus(\'' + p.id + '\', \'rejected\')">Отклонить</button>';
+      html += '      <button class="mc-btn red sm" onclick="banPlayer(\'' + p.id + '\', \'' + escapeHtml(p.username) + '\')">Бан</button>';
       html += '      <button class="mc-btn red sm" onclick="deletePlayer(\'' + p.id + '\', \'' + escapeHtml(p.username) + '\')">Удалить</button>';
       html += '    </div>';
       html += '  </div>';
@@ -646,6 +654,7 @@
   function statusLabel(s) {
     if (s === 'approved') return 'Одобрен';
     if (s === 'rejected') return 'Отклонён';
+    if (s === 'banned') return 'Забанен';
     return 'Ожидает';
   }
 
@@ -656,6 +665,12 @@
 
   async function setStatus(id, status) {
     await db.from('players').update({ status: status }).eq('id', id);
+    loadPlayers();
+  }
+
+  async function banPlayer(id, username) {
+    if (!confirm('Забанить ' + username + '?')) return;
+    await db.from('players').update({ status: 'banned' }).eq('id', id);
     loadPlayers();
   }
 
@@ -738,8 +753,8 @@
     tabs.forEach(function(t) { t.classList.remove('active'); });
     panels.forEach(function(p) { p.classList.remove('show'); });
 
-    var map = { pending: 0, approved: 1, rejected: 2, all: 3, announcements: 4 };
-    var panelIds = ['panelPending', 'panelApproved', 'panelRejected', 'panelAll', 'panelAnnouncements'];
+    var map = { pending: 0, approved: 1, rejected: 2, banned: 3, all: 4, announcements: 5 };
+    var panelIds = ['panelPending', 'panelApproved', 'panelRejected', 'panelBanned', 'panelAll', 'panelAnnouncements'];
 
     tabs[map[tab]].classList.add('active');
     document.getElementById(panelIds[map[tab]]).classList.add('show');

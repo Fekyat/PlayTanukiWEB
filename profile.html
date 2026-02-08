@@ -114,7 +114,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 48px 24px 40px;
+    padding: 32px 24px 32px;
   }
 
   .page-title {
@@ -125,7 +125,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 20px;
   }
 
   /* ── Shared form styles ── */
@@ -136,7 +136,7 @@
     border: 2px solid var(--color-tundora);
     padding: 28px 24px;
   }
-  .form-group { margin-bottom: 20px; }
+  .form-group { margin-bottom: 12px; }
   .form-label {
     display: block;
     font-family: var(--font-mc-five);
@@ -154,12 +154,12 @@
     color: var(--color-white);
     background: rgba(0,0,0,.4);
     border: 2px solid var(--color-scorpion);
-    padding: 12px 14px;
+    padding: 10px 12px;
     outline: none;
     transition: border-color .2s;
   }
   .form-input:focus { border-color: var(--color-primary); }
-  .form-input::placeholder { color: var(--color-scorpion); }
+  .form-input::placeholder { color: var(--color-scorpion); font-size: 13px; }
 
   .form-message {
     font-family: var(--font-mc-seven);
@@ -184,7 +184,7 @@
     color: var(--color-white);
     border: none;
     outline: none;
-    padding: 14px 32px;
+    padding: 11px 24px;
     cursor: pointer;
     transition: filter .12s, background .12s;
     clip-path: polygon(
@@ -208,25 +208,50 @@
   .mc-btn:disabled { background: var(--color-scorpion); cursor: not-allowed; }
   .mc-btn.full { width: 100%; }
 
+  /* ── Bento grid ── */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    width: 100%;
+    max-width: 760px;
+  }
+  .bento-wide { grid-column: 1 / -1; }
+  .bento-left { grid-column: 1; }
+  .bento-right { grid-column: 2; }
+  .bento-right-stack {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pw-row {
+    display: flex;
+    gap: 10px;
+  }
+  .pw-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
   /* ── Profile sections ── */
   .section-title {
     font-family: var(--font-mc-five);
-    font-size: 12px;
+    font-size: 11px;
     color: var(--color-tertiary);
     text-shadow: 2px 2px 0 rgba(0,0,0,.6);
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
     border-bottom: 2px solid var(--color-tundora);
   }
   .profile-section {
     width: 100%;
-    max-width: 440px;
     background: rgba(0,0,0,.35);
     border: 2px solid var(--color-tundora);
-    padding: 24px;
-    margin-bottom: 12px;
+    padding: 16px;
   }
 
   /* ── Status badge ── */
@@ -241,6 +266,7 @@
   .status-badge.pending { color: #f0ad4e; }
   .status-badge.approved { color: var(--color-tertiary); }
   .status-badge.rejected { color: #e04848; }
+  .status-badge.banned { color: #ff4444; font-weight: bold; }
 
   /* ── Player info ── */
   .player-info-row {
@@ -267,9 +293,9 @@
     text-align: center;
   }
   .skin-viewer-wrap {
-    width: 200px;
-    height: 300px;
-    margin: 0 auto 16px;
+    width: 180px;
+    height: 260px;
+    margin: 0 auto 10px;
     border: 2px solid var(--color-tundora);
     background: rgba(0,0,0,.3);
     position: relative;
@@ -292,7 +318,7 @@
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .skin-toggle-btn {
     font-family: var(--font-mc-five);
@@ -369,6 +395,38 @@
     color: var(--color-scorpion);
     margin-top: 6px;
   }
+  .announce-pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .announce-pager button {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-dusty);
+    background: rgba(0,0,0,.3);
+    border: 2px solid var(--color-tundora);
+    padding: 5px 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: border-color .2s, color .2s;
+  }
+  .announce-pager button:hover {
+    border-color: var(--color-scorpion);
+    color: var(--color-white);
+  }
+  .announce-pager button:disabled {
+    color: var(--color-tundora);
+    cursor: not-allowed;
+    border-color: rgba(64,64,64,.5);
+  }
+  .announce-pager span {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+  }
 
   /* ── Danger zone ── */
   .danger-zone {
@@ -400,12 +458,16 @@
   }
 
   /* ═══ RESPONSIVE ═══ */
-  @media (max-width: 640px) {
+  @media (max-width: 700px) {
     .site-header { min-height: 200px; background-size: auto 200px; }
     .header-logo { width: 320px; }
     .main-content { padding: 32px 16px 32px; }
     .page-title { font-size: 18px; }
-    .panel, .profile-section { padding: 20px 16px; }
+    .panel, .profile-section { padding: 14px; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-left, .bento-right { grid-column: 1; }
+    .bento-left { grid-row: auto !important; }
+    .pw-row { flex-direction: column; }
   }
 </style>
 </head>
@@ -443,84 +505,85 @@
   </div>
 
   <!-- ── Profile Section ── -->
-  <div id="profileSection" style="display:none; width:100%; display:none; flex-direction:column; align-items:center;">
+  <div id="profileSection" style="display:none; width:100%; flex-direction:column; align-items:center;">
     <div class="page-title">Профиль</div>
 
-    <!-- Announcements -->
-    <div class="profile-section" id="announceSection" style="display:none;">
-      <div class="section-title">Объявления</div>
-      <div id="announceList"></div>
-    </div>
+    <div class="bento-grid">
 
-    <!-- Info -->
-    <div class="profile-section">
-      <div class="section-title">Аккаунт</div>
-      <div class="player-info-row">
-        <span class="player-username" id="profUsername"></span>
-        <span class="status-badge" id="profStatus"></span>
+      <!-- Announcements — full width -->
+      <div class="profile-section bento-wide" id="announceSection" style="display:none;">
+        <div class="section-title">Объявления</div>
+        <div id="announceList"></div>
       </div>
-      <div class="player-detail" id="profContact"></div>
-    </div>
 
-    <!-- Skin -->
-    <div class="profile-section">
-      <div class="section-title">Скин</div>
-      <div class="skin-area">
-        <div class="skin-viewer-wrap" id="skinViewer">
-          <div class="skin-no-preview" id="skinNoPreview">Нет скина</div>
+      <!-- Left: Skin (spans all rows) -->
+      <div class="profile-section bento-left" style="grid-row: span 3;">
+        <div class="section-title">Скин</div>
+        <div class="skin-area">
+          <div class="skin-viewer-wrap" id="skinViewer">
+            <div class="skin-no-preview" id="skinNoPreview">Нет скина</div>
+          </div>
+          <div class="skin-toggle">
+            <button class="skin-toggle-btn active" id="btnWide" onclick="setArmType('default')">Широкие</button>
+            <button class="skin-toggle-btn" id="btnSlim" onclick="setArmType('slim')">Тонкие</button>
+          </div>
+          <input type="file" id="skinFile" class="skin-file-input" accept=".png" onchange="uploadSkin()">
+          <button class="mc-btn green full" onclick="document.getElementById('skinFile').click()">Загрузить</button>
+          <div class="skin-hint">PNG 64x64 / 64x32</div>
+          <div class="form-message" id="skinMessage"></div>
         </div>
-        <div class="skin-toggle">
-          <button class="skin-toggle-btn active" id="btnWide" onclick="setArmType('default')">Широкие</button>
-          <button class="skin-toggle-btn" id="btnSlim" onclick="setArmType('slim')">Тонкие</button>
+      </div>
+
+      <!-- Right: Account info -->
+      <div class="profile-section bento-right">
+        <div class="section-title">Аккаунт</div>
+        <div class="player-info-row">
+          <span class="player-username" id="profUsername"></span>
+          <span class="status-badge" id="profStatus"></span>
         </div>
-        <input type="file" id="skinFile" class="skin-file-input" accept=".png" onchange="uploadSkin()">
-        <button class="mc-btn green" onclick="document.getElementById('skinFile').click()">Загрузить скин</button>
-        <div class="skin-hint">PNG 64x64 или 64x32</div>
-        <div class="form-message" id="skinMessage"></div>
+        <div class="player-detail" id="profContact"></div>
       </div>
-    </div>
 
-    <!-- Change Contact -->
-    <div class="profile-section">
-      <div class="section-title">Контакт</div>
-      <div class="form-group" style="margin-bottom:0">
-        <label class="form-label" for="newContact">Telegram или Discord</label>
-        <input class="form-input" type="text" id="newContact" placeholder="@username или name#1234">
+      <!-- Right: Contact + Password side by side -->
+      <div class="profile-section bento-right">
+        <div class="section-title">Контакт</div>
+        <div class="form-group" style="margin-bottom:0">
+          <input class="form-input" type="text" id="newContact" placeholder="@telegram или discord#1234">
+        </div>
+        <div class="form-message" id="contactMessage"></div>
+        <button class="mc-btn green full" onclick="updateContact()" style="margin-top:8px;">Сохранить</button>
       </div>
-      <div class="form-message" id="contactMessage"></div>
-      <button class="mc-btn green full" onclick="updateContact()">Сохранить</button>
-    </div>
 
-    <!-- Change Password -->
-    <div class="profile-section">
-      <div class="section-title">Сменить пароль</div>
-      <div class="form-group">
-        <label class="form-label" for="oldPassword">Текущий пароль</label>
-        <input class="form-input" type="password" id="oldPassword" placeholder="Старый пароль">
+      <!-- Right: Password -->
+      <div class="profile-section bento-right">
+        <div class="section-title">Сменить пароль</div>
+        <div class="form-group" style="margin-bottom:8px">
+          <input class="form-input" type="password" id="oldPassword" placeholder="Текущий пароль">
+        </div>
+        <div class="pw-row">
+          <div class="form-group">
+            <input class="form-input" type="password" id="newPassword" placeholder="Новый">
+          </div>
+          <div class="form-group">
+            <input class="form-input" type="password" id="newPasswordConfirm" placeholder="Повтори">
+          </div>
+        </div>
+        <div class="form-message" id="passwordMessage"></div>
+        <button class="mc-btn green full" onclick="changePassword()" style="margin-top:8px;">Сменить</button>
       </div>
-      <div class="form-group">
-        <label class="form-label" for="newPassword">Новый пароль</label>
-        <input class="form-input" type="password" id="newPassword" placeholder="Новый пароль">
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <label class="form-label" for="newPasswordConfirm">Подтверди пароль</label>
-        <input class="form-input" type="password" id="newPasswordConfirm" placeholder="Повтори новый пароль">
-      </div>
-      <div class="form-message" id="passwordMessage"></div>
-      <button class="mc-btn green full" onclick="changePassword()">Сменить пароль</button>
-    </div>
 
-    <!-- Danger Zone -->
-    <div class="profile-section danger-zone">
-      <div class="section-title">Опасная зона</div>
-      <div class="danger-text">Удаление аккаунта необратимо. Ты потеряешь доступ к серверу.</div>
-      <button class="mc-btn red full" onclick="deleteAccount()">Удалить аккаунт</button>
-      <div class="form-message" id="deleteMessage"></div>
-    </div>
+      <!-- Full width: Danger + Logout row -->
+      <div class="profile-section danger-zone bento-wide" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+          <div class="danger-text" style="margin-bottom:0;">Удаление аккаунта необратимо.</div>
+          <div class="form-message" id="deleteMessage"></div>
+        </div>
+        <div style="display:flex; gap:8px; flex-shrink:0;">
+          <button class="mc-btn red" onclick="deleteAccount()">Удалить аккаунт</button>
+          <button class="mc-btn gray" onclick="logout()">Выйти</button>
+        </div>
+      </div>
 
-    <!-- Logout -->
-    <div style="margin-top:16px;">
-      <button class="mc-btn gray" onclick="logout()">Выйти</button>
     </div>
 
     <div class="back-link">
@@ -586,8 +649,8 @@
     }
 
     currentPlayer = data;
-    sessionStorage.setItem('player_id', data.id);
-    sessionStorage.setItem('player_hash', hash);
+    localStorage.setItem('player_id', data.id);
+    localStorage.setItem('player_hash', hash);
     showProfile();
   }
 
@@ -602,6 +665,7 @@
     statusEl.className = 'status-badge ' + currentPlayer.status;
     if (currentPlayer.status === 'pending') statusEl.textContent = 'Ожидает';
     else if (currentPlayer.status === 'approved') statusEl.textContent = 'Одобрен';
+    else if (currentPlayer.status === 'banned') statusEl.textContent = 'Забанен';
     else statusEl.textContent = 'Отклонён';
 
     document.getElementById('profContact').textContent = currentPlayer.contact || '—';
@@ -616,27 +680,56 @@
     loadAnnouncements();
   }
 
-  // ── Announcements ──
+  // ── Announcements (paginated) ──
+  var allAnnouncements = [];
+  var announcePage = 0;
+  var ANNOUNCE_PER_PAGE = 3;
+
   async function loadAnnouncements() {
     var { data } = await db.from('announcements').select('*').order('created_at', { ascending: false });
     var section = document.getElementById('announceSection');
-    var list = document.getElementById('announceList');
 
     if (!data || data.length === 0) {
       section.style.display = 'none';
       return;
     }
 
+    allAnnouncements = data;
+    announcePage = 0;
     section.style.display = '';
+    renderAnnouncePage();
+  }
+
+  function renderAnnouncePage() {
+    var list = document.getElementById('announceList');
+    var start = announcePage * ANNOUNCE_PER_PAGE;
+    var page = allAnnouncements.slice(start, start + ANNOUNCE_PER_PAGE);
+    var totalPages = Math.ceil(allAnnouncements.length / ANNOUNCE_PER_PAGE);
+
     var html = '';
-    data.forEach(function(a) {
+    page.forEach(function(a) {
       var date = new Date(a.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
       html += '<div class="announce-card">';
       html += '  <div class="announce-text">' + escapeHtml(a.message) + '</div>';
       html += '  <div class="announce-date">' + date + '</div>';
       html += '</div>';
     });
+
+    if (totalPages > 1) {
+      html += '<div class="announce-pager">';
+      html += '  <button onclick="announceNav(-1)"' + (announcePage === 0 ? ' disabled' : '') + '>&lt;</button>';
+      html += '  <span>' + (announcePage + 1) + ' / ' + totalPages + '</span>';
+      html += '  <button onclick="announceNav(1)"' + (announcePage >= totalPages - 1 ? ' disabled' : '') + '>&gt;</button>';
+      html += '</div>';
+    }
+
     list.innerHTML = html;
+  }
+
+  function announceNav(dir) {
+    var totalPages = Math.ceil(allAnnouncements.length / ANNOUNCE_PER_PAGE);
+    announcePage = Math.max(0, Math.min(totalPages - 1, announcePage + dir));
+    renderAnnouncePage();
   }
 
   function escapeHtml(text) {
@@ -685,8 +778,8 @@
 
     skinViewerInstance = new skinview3d.SkinViewer({
       canvas: document.createElement('canvas'),
-      width: 200,
-      height: 300,
+      width: 180,
+      height: 260,
       skin: url,
       model: currentArmType === 'slim' ? 'slim' : 'default'
     });
@@ -831,7 +924,7 @@
       msg.textContent = 'Ошибка: ' + error.message;
     } else {
       currentPlayer.password_hash = newHash;
-      sessionStorage.setItem('player_hash', newHash);
+      localStorage.setItem('player_hash', newHash);
       document.getElementById('oldPassword').value = '';
       document.getElementById('newPassword').value = '';
       document.getElementById('newPasswordConfirm').value = '';
@@ -864,8 +957,8 @@
   // ── Logout ──
   function logout() {
     currentPlayer = null;
-    sessionStorage.removeItem('player_id');
-    sessionStorage.removeItem('player_hash');
+    localStorage.removeItem('player_id');
+    localStorage.removeItem('player_hash');
     document.getElementById('profileSection').style.display = 'none';
     document.getElementById('loginSection').style.display = '';
     document.getElementById('loginUser').value = '';
@@ -875,8 +968,8 @@
 
   // ── Auto-login from session ──
   (async function() {
-    var id = sessionStorage.getItem('player_id');
-    var hash = sessionStorage.getItem('player_hash');
+    var id = localStorage.getItem('player_id');
+    var hash = localStorage.getItem('player_hash');
     if (id && hash) {
       var { data } = await db
         .from('players')

@@ -277,36 +277,58 @@
     color: var(--color-tertiary);
   }
 
-  /* ── Commands link ── */
-  .commands-link {
+  /* ── Nav grid ── */
+  .nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+    max-width: 520px;
     margin-top: 48px;
   }
-  .commands-link a {
-    display: inline-flex;
+  .nav-card {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 600;
-    color: #86D562;
+    justify-content: center;
+    gap: 6px;
     text-decoration: none;
-    padding: 12px 4px;
-    border-bottom: 2px solid #86D562;
-    transition: color .15s, border-color .15s;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 18px 12px;
+    transition: border-color .2s, background .2s;
+    text-align: center;
+    min-height: 80px;
   }
-  .commands-link a:hover {
-    color: #9de87a;
-    border-color: #9de87a;
+  .nav-card:hover {
+    border-color: var(--color-primary);
+    background: rgba(0,0,0,.5);
   }
-  .commands-link .arrow {
-    display: inline-flex;
-    width: 16px; height: 16px;
+  .nav-card-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--color-dusty);
     flex-shrink: 0;
-    transition: transform .2s;
   }
-  .commands-link a:hover .arrow {
-    transform: translateX(3px);
+  .nav-card:hover .nav-card-icon { color: var(--color-tertiary); }
+  .nav-card-label {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
+  .nav-card:hover .nav-card-label { color: var(--color-tertiary); }
+  .nav-card-sub {
+    font-family: var(--font-mc-seven);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .nav-card.wide { grid-column: 1 / -1; }
+  .nav-card.accent { border-color: rgba(60,133,39,.4); }
+  .nav-card.accent:hover { border-color: var(--color-primary-lt); }
 
   /* ── Rules section ── */
   .rules-section {
@@ -456,7 +478,8 @@
     .server-ip-label { font-size: 11px; }
     .edition-toggle { flex-direction: column; gap: 8px; }
     .edition-btn { padding: 12px 24px; font-size: 14px; }
-    .commands-link a { font-size: 13px; }
+    .nav-grid { grid-template-columns: 1fr; }
+    .nav-card.wide { grid-column: 1; }
     .rules-section { margin-top: 40px; }
     .rules-title { font-size: 18px; }
     .rules-list { padding: 12px 16px; }
@@ -497,27 +520,46 @@
   </div>
   <div class="edition-info" id="editionInfo">Версия: <span>1.21.11+</span></div>
 
-  <!-- Commands Wiki Link -->
-  <div class="commands-link">
-    <a href="tanuki-commands.html">
-      <span>TanukiEssentials — Команды</span>
-      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <!-- Navigation Grid -->
+  <div class="nav-grid" id="navGrid">
+    <!-- Commands — always visible -->
+    <a class="nav-card" href="tanuki-commands.html">
+      <svg class="nav-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+      <span class="nav-card-label">Команды</span>
+      <span class="nav-card-sub">TanukiEssentials</span>
     </a>
-  </div>
 
-  <!-- Registration Link -->
-  <div class="commands-link" style="margin-top: 12px;">
-    <a href="register.html">
-      <span>Регистрация в вайтлист</span>
-      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- Server — always visible -->
+    <a class="nav-card" href="server.html">
+      <svg class="nav-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"/></svg>
+      <span class="nav-card-label">Сервер</span>
+      <span class="nav-card-sub">Карта, чат, онлайн</span>
     </a>
-  </div>
 
-  <!-- Profile Link -->
-  <div class="commands-link" style="margin-top: 12px;">
-    <a href="profile.html">
-      <span>Личный кабинет</span>
-      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- Guest: Register + Login -->
+    <a class="nav-card accent" href="register.html" id="navRegister">
+      <svg class="nav-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg>
+      <span class="nav-card-label">Регистрация</span>
+      <span class="nav-card-sub">Подать заявку</span>
+    </a>
+
+    <a class="nav-card accent" href="profile.html" id="navLogin">
+      <svg class="nav-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/></svg>
+      <span class="nav-card-label">Войти</span>
+      <span class="nav-card-sub">Личный кабинет</span>
+    </a>
+
+    <!-- Logged in: Profile + Logout -->
+    <a class="nav-card accent" href="profile.html" id="navProfile" style="display:none;">
+      <svg class="nav-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+      <span class="nav-card-label" id="navProfileName">Профиль</span>
+      <span class="nav-card-sub">Личный кабинет</span>
+    </a>
+
+    <a class="nav-card" href="#" id="navLogout" style="display:none;" onclick="doLogout(); return false;">
+      <svg class="nav-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/></svg>
+      <span class="nav-card-label">Выйти</span>
+      <span class="nav-card-sub"></span>
     </a>
   </div>
 
@@ -548,7 +590,38 @@
   <div class="footer-text">Создано Fekyat/Фекиат</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  // ── Session check ──
+  (function() {
+    var SUPABASE_URL = 'https://bdwrvonkykccirctxrcc.supabase.co';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkd3J2b25reWtjY2lyY3R4cmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDUwOTIsImV4cCI6MjA4NjEyMTA5Mn0.2OuWJw0PzOAhItibqfynmIFHz7bLAUSyBOyPrigDE6A';
+    var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    var id = localStorage.getItem('player_id');
+    var hash = localStorage.getItem('player_hash');
+
+    if (id && hash) {
+      db.from('players').select('username').eq('id', id).eq('password_hash', hash).single()
+        .then(function(res) {
+          if (res.data) {
+            // Logged in — show profile + logout, hide register + login
+            document.getElementById('navRegister').style.display = 'none';
+            document.getElementById('navLogin').style.display = 'none';
+            document.getElementById('navProfile').style.display = '';
+            document.getElementById('navLogout').style.display = '';
+            document.getElementById('navProfileName').textContent = res.data.username;
+          }
+        });
+    }
+  })();
+
+  function doLogout() {
+    localStorage.removeItem('player_id');
+    localStorage.removeItem('player_hash');
+    location.reload();
+  }
+
   // ── Edition toggle ──
   function switchEdition(edition) {
     const btnJava = document.getElementById('btnJava');
