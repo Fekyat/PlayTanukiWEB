@@ -15,11 +15,21 @@
   /* ═══ FONTS — Minecraft official set ═══ */
   @font-face {
     font-family: 'MinecraftFive';
-    src: url('minecraft-five.otf.woff2') format('woff2');
+    src: url('minecraft-five-c.otf.woff2') format('woff2');
     font-weight: normal; font-style: normal;
   }
   @font-face {
     font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold-c.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
     src: url('minecraft-five-bold.otf.woff2') format('woff2');
     font-weight: bold; font-style: normal;
   }
@@ -61,6 +71,7 @@
     --cat-warp:   #5BA4E0;
     --cat-claim:  #A78BFA;
     --cat-util:   #E04848;
+    --cat-auth:   #2DD4BF;
 
     /* Shadows from theme */
     --default-shadow:     0 2px 0 rgba(0,0,0,.25);
@@ -68,7 +79,7 @@
 
     /* Fonts */
     --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
-    --font-mc-five: 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-five: 'MinecraftFiveOG', 'MinecraftFive', 'Courier New', monospace;
     --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
     --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
   }
@@ -140,8 +151,8 @@
     margin-top: 2px;
   }
   .header-sub {
-    font-family: var(--font-mc-seven);
-    font-size: 18px;
+    font-family: var(--font-mc-five);
+    font-size: 12px;
     color: var(--color-dusty);
     text-shadow: 2px 2px 0 rgba(0,0,0,.8);
     margin-top: 8px;
@@ -282,6 +293,8 @@
   .btn-outline.o-purple:hover { background: var(--cat-claim); }
   .btn-outline.o-red    { color: var(--cat-util); }
   .btn-outline.o-red:hover    { background: var(--cat-util); }
+  .btn-outline.o-amber  { color: var(--cat-auth); }
+  .btn-outline.o-amber:hover  { background: var(--cat-auth); }
 
   .btn-sm { padding: 9px 18px; font-size: 13px; }
 
@@ -324,6 +337,7 @@
   .cat-warp  .cat-title { color: var(--cat-warp); }
   .cat-claim .cat-title { color: var(--cat-claim); }
   .cat-util  .cat-title { color: var(--cat-util); }
+  .cat-auth  .cat-title { color: var(--cat-auth); }
 
   .cat-desc {
     font-size: 14px;
@@ -357,7 +371,7 @@
     margin-bottom: 8px;
   }
   .cmd-name {
-    font-family: 'MinecraftFive', 'MinecraftSeven', 'Courier New', monospace;
+    font-family: var(--font-mc-five);
     font-size: 16px;
     letter-spacing: .5px;
     text-shadow: 1px 1px 0 rgba(0,0,0,.5);
@@ -367,6 +381,7 @@
   .cat-warp  .cmd-name { color: var(--cat-warp); }
   .cat-claim .cmd-name { color: var(--cat-claim); }
   .cat-util  .cmd-name { color: var(--cat-util); }
+  .cat-auth  .cmd-name { color: var(--cat-auth); }
 
   .cmd-alias {
     font-family: var(--font-mc-seven);
@@ -402,8 +417,8 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-family: var(--font-mc-seven);
-    font-size: 13px;
+    font-family: var(--font-mc-five);
+    font-size: 10px;
     letter-spacing: .5px;
     padding: 4px 12px;
     background: rgba(255,255,255,.03);
@@ -442,8 +457,8 @@
     margin-top: 24px;
   }
   .footer-text {
-    font-family: var(--font-mc-seven);
-    font-size: 14px;
+    font-family: var(--font-mc-five);
+    font-size: 10px;
     color: var(--color-scorpion);
     letter-spacing: 1px;
   }
@@ -455,7 +470,7 @@
     .site-header { min-height: 200px; background-size: auto 200px; }
     .header-title { font-size: 24px; }
     .header-logo { width: 200px; }
-    .header-sub { font-size: 14px; }
+    .header-sub { font-size: 10px; }
     .page-wrapper { padding: 0 16px 60px; }
     .nav-bar { gap: 6px; padding: 12px 16px; margin: 0 -16px; }
     .btn-sm { padding: 7px 12px; font-size: 11px; }
@@ -466,7 +481,7 @@
     .cmd-name { font-size: 13px; }
     .cmd-body { font-size: 13px; }
     .cmd-tags { gap: 4px; }
-    .tag { font-size: 11px; padding: 3px 8px; word-break: break-all; }
+    .tag { font-size: 9px; padding: 3px 8px; word-break: break-all; }
     .cmd-alias { font-size: 12px; }
     .cmd-alias-tag { font-size: 9px; }
   }
@@ -491,6 +506,7 @@
     <a href="#warps"    class="btn btn-outline btn-sm o-blue"><span>Варпы</span></a>
     <a href="#claims"   class="btn btn-outline btn-sm o-purple"><span>Регионы</span></a>
     <a href="#utility"  class="btn btn-outline btn-sm o-red"><span>Утилиты</span></a>
+    <a href="#auth"     class="btn btn-outline btn-sm o-amber"><span>Аккаунт</span></a>
   </nav>
 
 
@@ -823,9 +839,32 @@
   </section>
 
 
+  <!-- ══════════════════════════════════════
+       АККАУНТ
+       ══════════════════════════════════════ -->
+  <section id="auth" class="category cat-auth">
+    <div class="cat-header">
+      <div class="cat-icon">/lg</div>
+      <h2 class="cat-title">Аккаунт</h2>
+    </div>
+    <p class="cat-desc">Авторизация на сервере. Регистрация происходит на сайте <code>playtanuki.fun</code> — после одобрения заявки можно зайти на сервер и ввести пароль.</p>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/login &lt;пароль&gt;</div>
+      </div>
+      <div class="cmd-body">Авторизация на сервере. При входе игрок заморожен — нельзя двигаться, писать в чат и взаимодействовать. После ввода правильного пароля все ограничения снимаются. 3 неверные попытки — кик. Таймаут — 60 секунд.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-args">пароль</span>
+        <span class="tag tag-cool">Таймаут: 60 сек.</span>
+      </div>
+    </div>
+  </section>
+
+
   <!-- ═══ FOOTER ═══ -->
   <footer class="site-footer">
-    <div class="footer-text">TanukiEssentials &bull; 25 команд &bull; 5 категорий</div>
+    <div class="footer-text">TanukiEssentials &bull; 26 команд &bull; 6 категорий</div>
   </footer>
 
 </div>

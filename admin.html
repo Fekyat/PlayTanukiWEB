@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayTanuki — Админка</title>
+<link rel="icon" type="image/png" href="browsericon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ RESET ═══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ═══ FONTS ═══ */
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-c.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold-c.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftSeven';
+    src: url('Minecraft Seven_2.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftTen';
+    src: url('MinecraftTen-VGORe.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+
+  /* ═══ TOKENS ═══ */
+  :root {
+    --color-primary:    #3c8527;
+    --color-primary-lt: #4a9e30;
+    --color-tertiary:   #a0e080;
+    --color-shark:      #1d1e1e;
+    --color-soil:       #313131;
+    --color-tundora:    #404040;
+    --color-scorpion:   #5a5a5a;
+    --color-gravel:     #757575;
+    --color-dusty:      #949494;
+    --color-hint:       #d7ccc8;
+    --color-white:      #fff;
+
+    --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
+    --font-mc-five: 'MinecraftFiveOG', 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
+    --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
+
+    --bdr: 4px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-soil);
+    background-image: url('minecraft.wiki/longurls/Background-55659f57.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    image-rendering: pixelated;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ HEADER ═══ */
+  .site-header {
+    width: 100%;
+    min-height: 280px;
+    background-image: url('minecraft.wiki/longurls/Header-bac-59de7ae.png');
+    background-repeat: repeat-x;
+    background-size: auto 280px;
+    background-position: center top;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .site-header a { display: flex; justify-content: center; }
+  .header-logo {
+    width: 500px;
+    max-width: 85%;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+  }
+
+  /* ═══ MAIN ═══ */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 40px;
+  }
+
+  .page-title {
+    font-family: var(--font-mc-ten);
+    font-size: 22px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  /* ── Login Form ── */
+  .login-form {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 28px 24px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-white);
+    background: rgba(0,0,0,.4);
+    border: 2px solid var(--color-scorpion);
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus { border-color: var(--color-primary); }
+  .form-input::placeholder { color: var(--color-scorpion); }
+  .form-textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-white);
+    background: rgba(0,0,0,.4);
+    border: 2px solid var(--color-scorpion);
+    padding: 12px 14px;
+    outline: none;
+    resize: vertical;
+    min-height: 60px;
+    transition: border-color .2s;
+  }
+  .form-textarea:focus { border-color: var(--color-primary); }
+  .form-textarea::placeholder { color: var(--color-scorpion); }
+  .form-message {
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    margin-top: 16px;
+    min-height: 18px;
+  }
+  .form-message.error { color: #e04848; }
+  .form-message.success { color: var(--color-tertiary); }
+
+  /* ── MC Button ── */
+  .mc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-white);
+    border: none;
+    outline: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: filter .12s, background .12s;
+    clip-path: polygon(
+      0 var(--bdr), var(--bdr) var(--bdr), var(--bdr) 0,
+      calc(100% - var(--bdr)) 0, calc(100% - var(--bdr)) var(--bdr), 100% var(--bdr),
+      100% calc(100% - var(--bdr)), calc(100% - var(--bdr)) calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) 100%, var(--bdr) 100%,
+      var(--bdr) calc(100% - var(--bdr)), 0 calc(100% - var(--bdr))
+    );
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 3px 0 rgba(255,255,255,.15);
+  }
+  .mc-btn:active {
+    box-shadow: inset 0 0 0 100px rgba(255,255,255,.2), inset 0 3px 0 rgba(0,0,0,.15);
+  }
+  .mc-btn.green { background: var(--color-primary); }
+  .mc-btn.green:hover { background: var(--color-primary-lt); }
+  .mc-btn.red { background: #8b2020; }
+  .mc-btn.red:hover { background: #a52a2a; }
+  .mc-btn.gray { background: var(--color-tundora); }
+  .mc-btn.gray:hover { background: var(--color-scorpion); }
+  .mc-btn.orange { background: #9e6b20; }
+  .mc-btn.orange:hover { background: #b87d28; }
+  .mc-btn:disabled { background: var(--color-scorpion); cursor: not-allowed; }
+  .mc-btn.full { width: 100%; }
+  .mc-btn.sm { padding: 8px 14px; font-size: 12px; }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    background: rgba(0,0,0,.3);
+    border: 2px solid var(--color-tundora);
+    padding: 8px 16px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: border-color .2s, color .2s;
+  }
+  .tab-btn:hover {
+    border-color: var(--color-scorpion);
+    color: var(--color-white);
+  }
+  .tab-btn.active {
+    border-color: var(--color-primary);
+    color: var(--color-tertiary);
+  }
+
+  /* ── Panels ── */
+  .admin-panel {
+    width: 100%;
+    max-width: 700px;
+    display: none;
+  }
+  .admin-panel.show { display: block; }
+
+  /* ── Section title ── */
+  .section-title {
+    font-family: var(--font-mc-five);
+    font-size: 12px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--color-tundora);
+  }
+
+  /* ── Player cards ── */
+  .player-card {
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 16px 20px;
+    margin-bottom: 8px;
+  }
+  .player-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .player-info { flex: 1; min-width: 200px; }
+  .player-name {
+    font-family: var(--font-mc-five);
+    font-size: 14px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .player-contact {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-top: 4px;
+  }
+  .player-date {
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    color: var(--color-scorpion);
+    margin-top: 4px;
+  }
+  .player-status {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    padding: 4px 10px;
+  }
+  .player-status.pending { color: #f0ad4e; }
+  .player-status.approved { color: var(--color-tertiary); }
+  .player-status.rejected { color: #e04848; }
+
+  .player-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  /* ── Player details (expandable) ── */
+  .player-details {
+    display: none;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .player-details.show { display: block; }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+  }
+  .detail-label {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+  }
+  .detail-value {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .player-detail-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Skin preview in admin ── */
+  .skin-thumb {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+    border: 1px solid var(--color-tundora);
+    background: rgba(0,0,0,.3);
+    vertical-align: middle;
+  }
+
+  /* ── Announcements ── */
+  .announce-form {
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .announce-card {
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 16px 20px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .announce-text {
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    flex: 1;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .announce-date {
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    color: var(--color-scorpion);
+    margin-top: 6px;
+  }
+
+  .empty-state {
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .logout-wrap { margin-top: 24px; }
+
+  /* ═══ FOOTER ═══ */
+  .site-footer {
+    text-align: center;
+    padding: 40px 24px 32px;
+    border-top: 3px solid var(--color-tundora);
+  }
+  .footer-text {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    letter-spacing: 1px;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 640px) {
+    .site-header { min-height: 200px; background-size: auto 200px; }
+    .header-logo { width: 320px; }
+    .main-content { padding: 32px 16px 32px; }
+    .page-title { font-size: 18px; }
+    .login-form { padding: 20px 16px; }
+    .player-top { flex-direction: column; align-items: flex-start; }
+    .player-actions { width: 100%; }
+    .player-actions .mc-btn { flex: 1; }
+    .player-detail-actions .mc-btn { flex: 1; }
+    .announce-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="index.html"><img class="header-logo" src="minecraft_title.png" alt="PlayTanuki"></a>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main-content">
+
+  <!-- Login -->
+  <div id="loginSection">
+    <div class="page-title">Админка</div>
+    <div class="login-form">
+      <div class="form-group">
+        <label class="form-label" for="adminUser">Никнейм</label>
+        <input class="form-input" type="text" id="adminUser" placeholder="Админ ник" autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="adminPass">Пароль</label>
+        <input class="form-input" type="password" id="adminPass" placeholder="Пароль">
+      </div>
+      <div class="form-message" id="loginMessage"></div>
+      <button class="mc-btn green full" onclick="adminLogin()">Войти</button>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminSection" style="display:none; width:100%; max-width:700px;">
+    <div class="page-title">Управление</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('pending')">Ожидают</button>
+      <button class="tab-btn" onclick="switchTab('approved')">Одобрены</button>
+      <button class="tab-btn" onclick="switchTab('rejected')">Отклонены</button>
+      <button class="tab-btn" onclick="switchTab('all')">Все</button>
+      <button class="tab-btn" onclick="switchTab('announcements')">Объявления</button>
+    </div>
+
+    <div class="admin-panel show" id="panelPending"></div>
+    <div class="admin-panel" id="panelApproved"></div>
+    <div class="admin-panel" id="panelRejected"></div>
+    <div class="admin-panel" id="panelAll"></div>
+    <div class="admin-panel" id="panelAnnouncements"></div>
+
+    <div class="logout-wrap">
+      <button class="mc-btn gray" onclick="logout()">Выйти</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-text">Создано Fekyat/Фекиат</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  var SUPABASE_URL = 'https://bdwrvonkykccirctxrcc.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkd3J2b25reWtjY2lyY3R4cmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDUwOTIsImV4cCI6MjA4NjEyMTA5Mn0.2OuWJw0PzOAhItibqfynmIFHz7bLAUSyBOyPrigDE6A';
+  var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  var currentTab = 'pending';
+
+  async function hashPassword(password) {
+    var encoder = new TextEncoder();
+    var data = encoder.encode(password);
+    var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ── Admin Login ──
+  async function adminLogin() {
+    var msg = document.getElementById('loginMessage');
+    var username = document.getElementById('adminUser').value.trim();
+    var password = document.getElementById('adminPass').value;
+
+    msg.className = 'form-message'; msg.textContent = '';
+
+    if (!username || !password) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Заполни все поля!';
+      return;
+    }
+
+    var hash = await hashPassword(password);
+    var { data, error } = await db.from('admins').select('*').eq('username', username).eq('password_hash', hash).single();
+
+    if (error || !data) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Неверный логин или пароль!';
+      return;
+    }
+
+    sessionStorage.setItem('admin', 'true');
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('adminSection').style.display = '';
+    loadAll();
+  }
+
+  // ── Load everything ──
+  function loadAll() {
+    loadPlayers();
+    loadAnnouncements();
+  }
+
+  // ── Load Players ──
+  async function loadPlayers() {
+    var { data, error } = await db.from('players').select('*').order('created_at', { ascending: false });
+    if (error) return;
+
+    var pending = data.filter(function(p) { return p.status === 'pending'; });
+    var approved = data.filter(function(p) { return p.status === 'approved'; });
+    var rejected = data.filter(function(p) { return p.status === 'rejected'; });
+
+    renderPlayerPanel('panelPending', pending, true);
+    renderPlayerPanel('panelApproved', approved, false);
+    renderPlayerPanel('panelRejected', rejected, false);
+    renderPlayerPanel('panelAll', data, false);
+
+    var tabs = document.querySelectorAll('.tab-btn');
+    tabs[0].textContent = 'Ожидают (' + pending.length + ')';
+    tabs[1].textContent = 'Одобрены (' + approved.length + ')';
+    tabs[2].textContent = 'Отклонены (' + rejected.length + ')';
+    tabs[3].textContent = 'Все (' + data.length + ')';
+  }
+
+  function renderPlayerPanel(panelId, players, showApproveReject) {
+    var panel = document.getElementById(panelId);
+    if (players.length === 0) {
+      panel.innerHTML = '<div class="empty-state">Пусто</div>';
+      return;
+    }
+
+    var html = '';
+    players.forEach(function(p) {
+      var date = new Date(p.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      var skinUrl = SUPABASE_URL + '/storage/v1/object/public/skins/' + p.username + '.png';
+
+      html += '<div class="player-card" id="card-' + p.id + '">';
+      html += '  <div class="player-top">';
+      html += '    <div class="player-info">';
+      html += '      <div class="player-name">' + escapeHtml(p.username) + '</div>';
+      html += '      <div class="player-contact">' + escapeHtml(p.contact || '—') + '</div>';
+      html += '      <div class="player-date">' + date + '</div>';
+      html += '    </div>';
+
+      if (showApproveReject) {
+        html += '    <div class="player-actions">';
+        html += '      <button class="mc-btn green sm" onclick="setStatus(\'' + p.id + '\', \'approved\')">Принять</button>';
+        html += '      <button class="mc-btn red sm" onclick="setStatus(\'' + p.id + '\', \'rejected\')">Отклонить</button>';
+        html += '      <button class="mc-btn gray sm" onclick="toggleDetails(\'' + p.id + '\')">...</button>';
+        html += '    </div>';
+      } else {
+        html += '    <div class="player-actions">';
+        html += '      <div class="player-status ' + p.status + '">' + statusLabel(p.status) + '</div>';
+        html += '      <button class="mc-btn gray sm" onclick="toggleDetails(\'' + p.id + '\')">...</button>';
+        html += '    </div>';
+      }
+
+      html += '  </div>';
+
+      // Expandable details
+      html += '  <div class="player-details" id="details-' + p.id + '">';
+      html += '    <div class="detail-row">';
+      html += '      <span class="detail-label">ID</span>';
+      html += '      <span class="detail-value">' + p.id.substring(0, 8) + '...</span>';
+      html += '    </div>';
+      html += '    <div class="detail-row">';
+      html += '      <span class="detail-label">Статус</span>';
+      html += '      <span class="detail-value player-status ' + p.status + '">' + statusLabel(p.status) + '</span>';
+      html += '    </div>';
+      html += '    <div class="detail-row">';
+      html += '      <span class="detail-label">Контакт</span>';
+      html += '      <span class="detail-value">' + escapeHtml(p.contact || '—') + '</span>';
+      html += '    </div>';
+      html += '    <div class="detail-row">';
+      html += '      <span class="detail-label">Дата</span>';
+      html += '      <span class="detail-value">' + date + '</span>';
+      html += '    </div>';
+      html += '    <div class="detail-row">';
+      html += '      <span class="detail-label">Скин</span>';
+      html += '      <span class="detail-value"><img class="skin-thumb" src="' + skinUrl + '" onerror="this.style.display=\'none\'" alt=""></span>';
+      html += '    </div>';
+      html += '    <div class="player-detail-actions">';
+      html += '      <button class="mc-btn green sm" onclick="setStatus(\'' + p.id + '\', \'approved\')">Принять</button>';
+      html += '      <button class="mc-btn orange sm" onclick="setStatus(\'' + p.id + '\', \'pending\')">В ожидание</button>';
+      html += '      <button class="mc-btn red sm" onclick="setStatus(\'' + p.id + '\', \'rejected\')">Отклонить</button>';
+      html += '      <button class="mc-btn red sm" onclick="deletePlayer(\'' + p.id + '\', \'' + escapeHtml(p.username) + '\')">Удалить</button>';
+      html += '    </div>';
+      html += '  </div>';
+
+      html += '</div>';
+    });
+    panel.innerHTML = html;
+  }
+
+  function statusLabel(s) {
+    if (s === 'approved') return 'Одобрен';
+    if (s === 'rejected') return 'Отклонён';
+    return 'Ожидает';
+  }
+
+  function toggleDetails(id) {
+    var el = document.getElementById('details-' + id);
+    el.classList.toggle('show');
+  }
+
+  async function setStatus(id, status) {
+    await db.from('players').update({ status: status }).eq('id', id);
+    loadPlayers();
+  }
+
+  async function deletePlayer(id, username) {
+    if (!confirm('Удалить аккаунт ' + username + '? Это нельзя отменить!')) return;
+    await db.from('players').delete().eq('id', id);
+    await db.storage.from('skins').remove([username + '.png']);
+    loadPlayers();
+  }
+
+  // ── Announcements ──
+  async function loadAnnouncements() {
+    var { data, error } = await db.from('announcements').select('*').order('created_at', { ascending: false });
+    var panel = document.getElementById('panelAnnouncements');
+
+    var html = '';
+
+    // Create announcement form
+    html += '<div class="announce-form">';
+    html += '  <div class="section-title">Новое объявление</div>';
+    html += '  <div class="form-group" style="margin-bottom:0">';
+    html += '    <textarea class="form-textarea" id="announceText" placeholder="Текст объявления..."></textarea>';
+    html += '  </div>';
+    html += '  <div class="form-message" id="announceMessage"></div>';
+    html += '  <button class="mc-btn green full" onclick="postAnnouncement()">Опубликовать</button>';
+    html += '</div>';
+
+    if (!data || data.length === 0) {
+      html += '<div class="empty-state">Нет объявлений</div>';
+    } else {
+      data.forEach(function(a) {
+        var date = new Date(a.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        html += '<div class="announce-card">';
+        html += '  <div>';
+        html += '    <div class="announce-text">' + escapeHtml(a.message) + '</div>';
+        html += '    <div class="announce-date">' + date + '</div>';
+        html += '  </div>';
+        html += '  <button class="mc-btn red sm" onclick="deleteAnnouncement(\'' + a.id + '\')">X</button>';
+        html += '</div>';
+      });
+    }
+
+    panel.innerHTML = html;
+  }
+
+  async function postAnnouncement() {
+    var msg = document.getElementById('announceMessage');
+    var text = document.getElementById('announceText').value.trim();
+
+    msg.className = 'form-message'; msg.textContent = '';
+
+    if (!text) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи текст!';
+      return;
+    }
+
+    var { error } = await db.from('announcements').insert([{ message: text }]);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      loadAnnouncements();
+    }
+  }
+
+  async function deleteAnnouncement(id) {
+    if (!confirm('Удалить объявление?')) return;
+    await db.from('announcements').delete().eq('id', id);
+    loadAnnouncements();
+  }
+
+  // ── Tab Switching ──
+  function switchTab(tab) {
+    currentTab = tab;
+    var tabs = document.querySelectorAll('.tab-btn');
+    var panels = document.querySelectorAll('.admin-panel');
+
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    panels.forEach(function(p) { p.classList.remove('show'); });
+
+    var map = { pending: 0, approved: 1, rejected: 2, all: 3, announcements: 4 };
+    var panelIds = ['panelPending', 'panelApproved', 'panelRejected', 'panelAll', 'panelAnnouncements'];
+
+    tabs[map[tab]].classList.add('active');
+    document.getElementById(panelIds[map[tab]]).classList.add('show');
+  }
+
+  function logout() {
+    sessionStorage.removeItem('admin');
+    document.getElementById('loginSection').style.display = '';
+    document.getElementById('adminSection').style.display = 'none';
+    document.getElementById('adminUser').value = '';
+    document.getElementById('adminPass').value = '';
+    document.getElementById('loginMessage').textContent = '';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('loginSection').style.display !== 'none') {
+      adminLogin();
+    }
+  });
+
+  if (sessionStorage.getItem('admin') === 'true') {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('adminSection').style.display = '';
+    loadAll();
+  }
+</script>
+
+</body>
+</html>

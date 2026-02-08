@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayTanuki — Профиль</title>
+<link rel="icon" type="image/png" href="browsericon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ RESET ═══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ═══ FONTS ═══ */
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-c.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold-c.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftSeven';
+    src: url('Minecraft Seven_2.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftTen';
+    src: url('MinecraftTen-VGORe.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+
+  /* ═══ TOKENS ═══ */
+  :root {
+    --color-primary:    #3c8527;
+    --color-primary-lt: #4a9e30;
+    --color-tertiary:   #a0e080;
+    --color-shark:      #1d1e1e;
+    --color-soil:       #313131;
+    --color-tundora:    #404040;
+    --color-scorpion:   #5a5a5a;
+    --color-gravel:     #757575;
+    --color-dusty:      #949494;
+    --color-hint:       #d7ccc8;
+    --color-white:      #fff;
+
+    --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
+    --font-mc-five: 'MinecraftFiveOG', 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
+    --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
+
+    --bdr: 4px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-soil);
+    background-image: url('minecraft.wiki/longurls/Background-55659f57.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    image-rendering: pixelated;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ HEADER ═══ */
+  .site-header {
+    width: 100%;
+    min-height: 280px;
+    background-image: url('minecraft.wiki/longurls/Header-bac-59de7ae.png');
+    background-repeat: repeat-x;
+    background-size: auto 280px;
+    background-position: center top;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .site-header a { display: flex; justify-content: center; }
+  .header-logo {
+    width: 500px;
+    max-width: 85%;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+  }
+
+  /* ═══ MAIN ═══ */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 40px;
+  }
+
+  .page-title {
+    font-family: var(--font-mc-ten);
+    font-size: 22px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  /* ── Shared form styles ── */
+  .panel {
+    width: 100%;
+    max-width: 440px;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 28px 24px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-white);
+    background: rgba(0,0,0,.4);
+    border: 2px solid var(--color-scorpion);
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus { border-color: var(--color-primary); }
+  .form-input::placeholder { color: var(--color-scorpion); }
+
+  .form-message {
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    margin-top: 16px;
+    min-height: 18px;
+  }
+  .form-message.success { color: var(--color-tertiary); }
+  .form-message.error { color: #e04848; }
+
+  /* ── MC Button ── */
+  .mc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-white);
+    border: none;
+    outline: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: filter .12s, background .12s;
+    clip-path: polygon(
+      0 var(--bdr), var(--bdr) var(--bdr), var(--bdr) 0,
+      calc(100% - var(--bdr)) 0, calc(100% - var(--bdr)) var(--bdr), 100% var(--bdr),
+      100% calc(100% - var(--bdr)), calc(100% - var(--bdr)) calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) 100%, var(--bdr) 100%,
+      var(--bdr) calc(100% - var(--bdr)), 0 calc(100% - var(--bdr))
+    );
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 3px 0 rgba(255,255,255,.15);
+  }
+  .mc-btn:active {
+    box-shadow: inset 0 0 0 100px rgba(255,255,255,.2), inset 0 3px 0 rgba(0,0,0,.15);
+  }
+  .mc-btn.green { background: var(--color-primary); }
+  .mc-btn.green:hover { background: var(--color-primary-lt); }
+  .mc-btn.red { background: #8b2020; }
+  .mc-btn.red:hover { background: #a52a2a; }
+  .mc-btn.gray { background: var(--color-tundora); }
+  .mc-btn.gray:hover { background: var(--color-scorpion); }
+  .mc-btn:disabled { background: var(--color-scorpion); cursor: not-allowed; }
+  .mc-btn.full { width: 100%; }
+
+  /* ── Profile sections ── */
+  .section-title {
+    font-family: var(--font-mc-five);
+    font-size: 12px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--color-tundora);
+  }
+  .profile-section {
+    width: 100%;
+    max-width: 440px;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 24px;
+    margin-bottom: 12px;
+  }
+
+  /* ── Status badge ── */
+  .status-badge {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    padding: 4px 10px;
+    display: inline-block;
+  }
+  .status-badge.pending { color: #f0ad4e; }
+  .status-badge.approved { color: var(--color-tertiary); }
+  .status-badge.rejected { color: #e04848; }
+
+  /* ── Player info ── */
+  .player-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .player-username {
+    font-family: var(--font-mc-five);
+    font-size: 16px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .player-detail {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+
+  /* ── Skin preview ── */
+  .skin-area {
+    text-align: center;
+  }
+  .skin-viewer-wrap {
+    width: 200px;
+    height: 300px;
+    margin: 0 auto 16px;
+    border: 2px solid var(--color-tundora);
+    background: rgba(0,0,0,.3);
+    position: relative;
+  }
+  .skin-viewer-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .skin-no-preview {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .skin-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .skin-toggle-btn {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-dusty);
+    background: rgba(0,0,0,.3);
+    border: 2px solid var(--color-tundora);
+    padding: 6px 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: border-color .2s, color .2s;
+  }
+  .skin-toggle-btn:hover {
+    border-color: var(--color-scorpion);
+    color: var(--color-white);
+  }
+  .skin-toggle-btn.active {
+    border-color: var(--color-primary);
+    color: var(--color-tertiary);
+  }
+  .skin-file-input {
+    display: none;
+  }
+  .skin-hint {
+    font-family: var(--font-mc-seven);
+    font-size: 11px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-top: 8px;
+  }
+
+  /* ── Back link ── */
+  .back-link { margin-top: 24px; }
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: #86D562;
+    text-decoration: none;
+    padding: 12px 4px;
+    border-bottom: 2px solid #86D562;
+    transition: color .15s, border-color .15s;
+  }
+  .back-link a:hover { color: #9de87a; border-color: #9de87a; }
+  .back-link .arrow {
+    display: inline-flex;
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .back-link a:hover .arrow { transform: translateX(-3px); }
+
+  /* ── Announcements ── */
+  .announce-card {
+    background: rgba(60,133,39,.08);
+    border: 2px solid rgba(60,133,39,.25);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  .announce-text {
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .announce-date {
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    color: var(--color-scorpion);
+    margin-top: 6px;
+  }
+
+  /* ── Danger zone ── */
+  .danger-zone {
+    border-color: #5a2020;
+  }
+  .danger-zone .section-title {
+    color: #e04848;
+    border-bottom-color: #5a2020;
+  }
+  .danger-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-bottom: 12px;
+  }
+
+  /* ═══ FOOTER ═══ */
+  .site-footer {
+    text-align: center;
+    padding: 40px 24px 32px;
+    border-top: 3px solid var(--color-tundora);
+  }
+  .footer-text {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    letter-spacing: 1px;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 640px) {
+    .site-header { min-height: 200px; background-size: auto 200px; }
+    .header-logo { width: 320px; }
+    .main-content { padding: 32px 16px 32px; }
+    .page-title { font-size: 18px; }
+    .panel, .profile-section { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="index.html"><img class="header-logo" src="minecraft_title.png" alt="PlayTanuki"></a>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main-content">
+
+  <!-- ── Login Section ── -->
+  <div id="loginSection">
+    <div class="page-title">Вход</div>
+    <div class="panel">
+      <div class="form-group">
+        <label class="form-label" for="loginUser">Никнейм</label>
+        <input class="form-input" type="text" id="loginUser" placeholder="Твой ник" autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="loginPass">Пароль</label>
+        <input class="form-input" type="password" id="loginPass" placeholder="Твой пароль">
+      </div>
+      <div class="form-message" id="loginMessage"></div>
+      <button class="mc-btn green full" onclick="login()">Войти</button>
+    </div>
+    <div class="back-link">
+      <a href="index.html">
+        <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Назад на главную</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Profile Section ── -->
+  <div id="profileSection" style="display:none; width:100%; display:none; flex-direction:column; align-items:center;">
+    <div class="page-title">Профиль</div>
+
+    <!-- Announcements -->
+    <div class="profile-section" id="announceSection" style="display:none;">
+      <div class="section-title">Объявления</div>
+      <div id="announceList"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="profile-section">
+      <div class="section-title">Аккаунт</div>
+      <div class="player-info-row">
+        <span class="player-username" id="profUsername"></span>
+        <span class="status-badge" id="profStatus"></span>
+      </div>
+      <div class="player-detail" id="profContact"></div>
+    </div>
+
+    <!-- Skin -->
+    <div class="profile-section">
+      <div class="section-title">Скин</div>
+      <div class="skin-area">
+        <div class="skin-viewer-wrap" id="skinViewer">
+          <div class="skin-no-preview" id="skinNoPreview">Нет скина</div>
+        </div>
+        <div class="skin-toggle">
+          <button class="skin-toggle-btn active" id="btnWide" onclick="setArmType('default')">Широкие</button>
+          <button class="skin-toggle-btn" id="btnSlim" onclick="setArmType('slim')">Тонкие</button>
+        </div>
+        <input type="file" id="skinFile" class="skin-file-input" accept=".png" onchange="uploadSkin()">
+        <button class="mc-btn green" onclick="document.getElementById('skinFile').click()">Загрузить скин</button>
+        <div class="skin-hint">PNG 64x64 или 64x32</div>
+        <div class="form-message" id="skinMessage"></div>
+      </div>
+    </div>
+
+    <!-- Change Contact -->
+    <div class="profile-section">
+      <div class="section-title">Контакт</div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="newContact">Telegram или Discord</label>
+        <input class="form-input" type="text" id="newContact" placeholder="@username или name#1234">
+      </div>
+      <div class="form-message" id="contactMessage"></div>
+      <button class="mc-btn green full" onclick="updateContact()">Сохранить</button>
+    </div>
+
+    <!-- Change Password -->
+    <div class="profile-section">
+      <div class="section-title">Сменить пароль</div>
+      <div class="form-group">
+        <label class="form-label" for="oldPassword">Текущий пароль</label>
+        <input class="form-input" type="password" id="oldPassword" placeholder="Старый пароль">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="newPassword">Новый пароль</label>
+        <input class="form-input" type="password" id="newPassword" placeholder="Новый пароль">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="newPasswordConfirm">Подтверди пароль</label>
+        <input class="form-input" type="password" id="newPasswordConfirm" placeholder="Повтори новый пароль">
+      </div>
+      <div class="form-message" id="passwordMessage"></div>
+      <button class="mc-btn green full" onclick="changePassword()">Сменить пароль</button>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="profile-section danger-zone">
+      <div class="section-title">Опасная зона</div>
+      <div class="danger-text">Удаление аккаунта необратимо. Ты потеряешь доступ к серверу.</div>
+      <button class="mc-btn red full" onclick="deleteAccount()">Удалить аккаунт</button>
+      <div class="form-message" id="deleteMessage"></div>
+    </div>
+
+    <!-- Logout -->
+    <div style="margin-top:16px;">
+      <button class="mc-btn gray" onclick="logout()">Выйти</button>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">
+        <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Назад на главную</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-text">Создано Fekyat/Фекиат</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/skinview3d@3/bundles/skinview3d.bundle.min.js"></script>
+<script>
+  var SUPABASE_URL = 'https://bdwrvonkykccirctxrcc.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkd3J2b25reWtjY2lyY3R4cmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDUwOTIsImV4cCI6MjA4NjEyMTA5Mn0.2OuWJw0PzOAhItibqfynmIFHz7bLAUSyBOyPrigDE6A';
+  var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  var currentPlayer = null;
+
+  async function hashPassword(password) {
+    var encoder = new TextEncoder();
+    var data = encoder.encode(password);
+    var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  // ── Login ──
+  async function login() {
+    var msg = document.getElementById('loginMessage');
+    var username = document.getElementById('loginUser').value.trim();
+    var password = document.getElementById('loginPass').value;
+
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (!username || !password) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Заполни все поля!';
+      return;
+    }
+
+    var hash = await hashPassword(password);
+
+    var { data, error } = await db
+      .from('players')
+      .select('*')
+      .eq('username', username)
+      .eq('password_hash', hash)
+      .single();
+
+    if (error || !data) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Неверный ник или пароль!';
+      return;
+    }
+
+    currentPlayer = data;
+    sessionStorage.setItem('player_id', data.id);
+    sessionStorage.setItem('player_hash', hash);
+    showProfile();
+  }
+
+  function showProfile() {
+    document.getElementById('loginSection').style.display = 'none';
+    var prof = document.getElementById('profileSection');
+    prof.style.display = 'flex';
+
+    document.getElementById('profUsername').textContent = currentPlayer.username;
+
+    var statusEl = document.getElementById('profStatus');
+    statusEl.className = 'status-badge ' + currentPlayer.status;
+    if (currentPlayer.status === 'pending') statusEl.textContent = 'Ожидает';
+    else if (currentPlayer.status === 'approved') statusEl.textContent = 'Одобрен';
+    else statusEl.textContent = 'Отклонён';
+
+    document.getElementById('profContact').textContent = currentPlayer.contact || '—';
+    document.getElementById('newContact').value = currentPlayer.contact || '';
+
+    // Load saved arm type
+    currentArmType = currentPlayer.slim_arms ? 'slim' : 'default';
+    document.getElementById('btnWide').className = 'skin-toggle-btn' + (currentArmType === 'default' ? ' active' : '');
+    document.getElementById('btnSlim').className = 'skin-toggle-btn' + (currentArmType === 'slim' ? ' active' : '');
+
+    loadSkin();
+    loadAnnouncements();
+  }
+
+  // ── Announcements ──
+  async function loadAnnouncements() {
+    var { data } = await db.from('announcements').select('*').order('created_at', { ascending: false });
+    var section = document.getElementById('announceSection');
+    var list = document.getElementById('announceList');
+
+    if (!data || data.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = '';
+    var html = '';
+    data.forEach(function(a) {
+      var date = new Date(a.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      html += '<div class="announce-card">';
+      html += '  <div class="announce-text">' + escapeHtml(a.message) + '</div>';
+      html += '  <div class="announce-date">' + date + '</div>';
+      html += '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ── Skin 3D Viewer ──
+  var skinViewerInstance = null;
+  var currentArmType = 'default';
+
+  function loadSkin() {
+    var container = document.getElementById('skinViewer');
+    var noPreview = document.getElementById('skinNoPreview');
+    var url = SUPABASE_URL + '/storage/v1/object/public/skins/' + currentPlayer.username + '.png?t=' + Date.now();
+
+    // Test if skin exists
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+      noPreview.style.display = 'none';
+      initViewer(url);
+    };
+    img.onerror = function() {
+      noPreview.style.display = '';
+      if (skinViewerInstance) {
+        skinViewerInstance.dispose();
+        skinViewerInstance = null;
+      }
+    };
+    img.src = url;
+  }
+
+  function initViewer(url) {
+    var container = document.getElementById('skinViewer');
+
+    if (skinViewerInstance) {
+      skinViewerInstance.dispose();
+      skinViewerInstance = null;
+    }
+
+    // Clear old canvases
+    var oldCanvas = container.querySelector('canvas');
+    if (oldCanvas) oldCanvas.remove();
+
+    skinViewerInstance = new skinview3d.SkinViewer({
+      canvas: document.createElement('canvas'),
+      width: 200,
+      height: 300,
+      skin: url,
+      model: currentArmType === 'slim' ? 'slim' : 'default'
+    });
+
+    skinViewerInstance.autoRotate = true;
+    skinViewerInstance.autoRotateSpeed = 0.5;
+    skinViewerInstance.zoom = 0.9;
+    skinViewerInstance.fov = 50;
+    skinViewerInstance.animation = new skinview3d.IdleAnimation();
+
+    container.appendChild(skinViewerInstance.canvas);
+  }
+
+  async function setArmType(type) {
+    currentArmType = type;
+    document.getElementById('btnWide').className = 'skin-toggle-btn' + (type === 'default' ? ' active' : '');
+    document.getElementById('btnSlim').className = 'skin-toggle-btn' + (type === 'slim' ? ' active' : '');
+
+    // Save to database
+    await db.from('players').update({ slim_arms: type === 'slim' }).eq('id', currentPlayer.id);
+    currentPlayer.slim_arms = type === 'slim';
+
+    if (skinViewerInstance) {
+      skinViewerInstance.loadSkin(SUPABASE_URL + '/storage/v1/object/public/skins/' + currentPlayer.username + '.png?t=' + Date.now(), { model: type === 'slim' ? 'slim' : 'default' });
+    }
+  }
+
+  async function uploadSkin() {
+    var msg = document.getElementById('skinMessage');
+    var fileInput = document.getElementById('skinFile');
+    var file = fileInput.files[0];
+
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (!file) return;
+
+    if (file.type !== 'image/png') {
+      msg.className = 'form-message error';
+      msg.textContent = 'Только PNG!';
+      return;
+    }
+
+    if (file.size > 50000) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Файл слишком большой!';
+      return;
+    }
+
+    var filename = currentPlayer.username + '.png';
+
+    var { error } = await db.storage
+      .from('skins')
+      .upload(filename, file, { upsert: true });
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      msg.className = 'form-message success';
+      msg.textContent = 'Скин загружен!';
+      loadSkin();
+    }
+
+    fileInput.value = '';
+  }
+
+  // ── Update Contact ──
+  async function updateContact() {
+    var msg = document.getElementById('contactMessage');
+    var contact = document.getElementById('newContact').value.trim();
+
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (!contact) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи контакт!';
+      return;
+    }
+
+    var { error } = await db
+      .from('players')
+      .update({ contact: contact })
+      .eq('id', currentPlayer.id);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      currentPlayer.contact = contact;
+      document.getElementById('profContact').textContent = contact;
+      msg.className = 'form-message success';
+      msg.textContent = 'Сохранено!';
+    }
+  }
+
+  // ── Change Password ──
+  async function changePassword() {
+    var msg = document.getElementById('passwordMessage');
+    var oldPass = document.getElementById('oldPassword').value;
+    var newPass = document.getElementById('newPassword').value;
+    var newPassConfirm = document.getElementById('newPasswordConfirm').value;
+
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (!oldPass || !newPass || !newPassConfirm) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Заполни все поля!';
+      return;
+    }
+
+    var oldHash = await hashPassword(oldPass);
+    if (oldHash !== currentPlayer.password_hash) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Неверный текущий пароль!';
+      return;
+    }
+
+    if (newPass.length < 6) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Минимум 6 символов!';
+      return;
+    }
+
+    if (newPass !== newPassConfirm) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Пароли не совпадают!';
+      return;
+    }
+
+    var newHash = await hashPassword(newPass);
+
+    var { error } = await db
+      .from('players')
+      .update({ password_hash: newHash })
+      .eq('id', currentPlayer.id);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      currentPlayer.password_hash = newHash;
+      sessionStorage.setItem('player_hash', newHash);
+      document.getElementById('oldPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('newPasswordConfirm').value = '';
+      msg.className = 'form-message success';
+      msg.textContent = 'Пароль изменён!';
+    }
+  }
+
+  // ── Delete Account ──
+  async function deleteAccount() {
+    var msg = document.getElementById('deleteMessage');
+
+    if (!confirm('Ты уверен? Это нельзя отменить!')) return;
+
+    var { error } = await db
+      .from('players')
+      .delete()
+      .eq('id', currentPlayer.id);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      // Also try to delete skin
+      await db.storage.from('skins').remove([currentPlayer.username + '.png']);
+      logout();
+    }
+  }
+
+  // ── Logout ──
+  function logout() {
+    currentPlayer = null;
+    sessionStorage.removeItem('player_id');
+    sessionStorage.removeItem('player_hash');
+    document.getElementById('profileSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = '';
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginMessage').textContent = '';
+  }
+
+  // ── Auto-login from session ──
+  (async function() {
+    var id = sessionStorage.getItem('player_id');
+    var hash = sessionStorage.getItem('player_hash');
+    if (id && hash) {
+      var { data } = await db
+        .from('players')
+        .select('*')
+        .eq('id', id)
+        .eq('password_hash', hash)
+        .single();
+      if (data) {
+        currentPlayer = data;
+        showProfile();
+      }
+    }
+  })();
+
+  // Enter to login
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('loginSection').style.display !== 'none') {
+      login();
+    }
+  });
+</script>
+
+</body>
+</html>
