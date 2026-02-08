@@ -15,18 +15,28 @@
   /* ═══ FONTS ═══ */
   @font-face {
     font-family: 'MinecraftFive';
-    src: url('minecraft-five.otf.woff2') format('woff2');
+    src: url('minecraft-five-c.otf.woff2') format('woff2');
     font-weight: normal; font-style: normal;
   }
   @font-face {
     font-family: 'MinecraftFive';
-    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    src: url('minecraft-five-bold-c.otf.woff2') format('woff2');
     font-weight: bold; font-style: normal;
   }
   @font-face {
     font-family: 'MinecraftSeven';
     src: url('Minecraft Seven_2.ttf') format('truetype');
     font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
   }
   @font-face {
     font-family: 'MinecraftTen';
@@ -49,7 +59,7 @@
     --color-white:      #fff;
 
     --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
-    --font-mc-five: 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-five: 'MinecraftFiveOG', 'MinecraftFive', 'Courier New', monospace;
     --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
     --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
 
@@ -113,15 +123,43 @@
     padding: 48px 24px 40px;
   }
 
+  /* ── Server Status ── */
+  .server-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    background: var(--color-scorpion);
+    flex-shrink: 0;
+    image-rendering: pixelated;
+  }
+  .status-dot.online {
+    background: #4ade80;
+    box-shadow: 0 0 6px rgba(74,222,128,.5);
+  }
+  .status-dot.offline {
+    background: #e04848;
+    box-shadow: 0 0 6px rgba(224,72,72,.5);
+  }
+
   /* ── Server IP ── */
   .server-ip-box {
     text-align: center;
     margin-bottom: 40px;
   }
-  /* Russian label — no MinecraftFive */
   .server-ip-label {
-    font-family: var(--font-mc-seven);
-    font-size: 18px;
+    font-family: var(--font-mc-five);
+    font-size: 14px;
     color: var(--color-dusty);
     text-shadow: 2px 2px 0 rgba(0,0,0,.8);
     letter-spacing: 1px;
@@ -224,7 +262,7 @@
   }
 
   /* ── Port info ── */
-  .port-info {
+  .edition-info {
     font-family: var(--font-mc-five);
     font-size: 14px;
     color: var(--color-dusty);
@@ -235,7 +273,7 @@
     text-align: center;
     transition: opacity .3s;
   }
-  .port-info span {
+  .edition-info span {
     color: var(--color-tertiary);
   }
 
@@ -398,8 +436,8 @@
   }
 
   .footer-text {
-    font-family: var(--font-mc-seven);
-    font-size: 14px;
+    font-family: var(--font-mc-five);
+    font-size: 10px;
     color: var(--color-scorpion);
     letter-spacing: 1px;
   }
@@ -415,7 +453,7 @@
       letter-spacing: 1px;
       word-break: break-all;
     }
-    .server-ip-label { font-size: 14px; }
+    .server-ip-label { font-size: 11px; }
     .edition-toggle { flex-direction: column; gap: 8px; }
     .edition-btn { padding: 12px 24px; font-size: 14px; }
     .commands-link a { font-size: 13px; }
@@ -437,6 +475,12 @@
 <!-- ═══ MAIN ═══ -->
 <main class="main-content">
 
+  <!-- Server Status -->
+  <div class="server-status" id="serverStatus">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Проверяем...</span>
+  </div>
+
   <!-- Server IP -->
   <div class="server-ip-box">
     <div class="server-ip-label">IP-адрес сервера</div>
@@ -451,12 +495,28 @@
     <button class="edition-btn active" id="btnJava" onclick="switchEdition('java')">Java Edition</button>
     <button class="edition-btn inactive" id="btnBedrock" onclick="switchEdition('bedrock')">Bedrock Edition</button>
   </div>
-  <div class="port-info" id="portInfo">&nbsp;</div>
+  <div class="edition-info" id="editionInfo">Версия: <span>1.21.11+</span></div>
 
   <!-- Commands Wiki Link -->
   <div class="commands-link">
     <a href="tanuki-commands.html">
       <span>TanukiEssentials — Команды</span>
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- Registration Link -->
+  <div class="commands-link" style="margin-top: 12px;">
+    <a href="register.html">
+      <span>Регистрация в вайтлист</span>
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- Profile Link -->
+  <div class="commands-link" style="margin-top: 12px;">
+    <a href="profile.html">
+      <span>Личный кабинет</span>
       <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
   </div>
@@ -493,16 +553,16 @@
   function switchEdition(edition) {
     const btnJava = document.getElementById('btnJava');
     const btnBedrock = document.getElementById('btnBedrock');
-    const portInfo = document.getElementById('portInfo');
+    const info = document.getElementById('editionInfo');
 
     if (edition === 'java') {
       btnJava.className = 'edition-btn active';
       btnBedrock.className = 'edition-btn inactive';
-      portInfo.innerHTML = '&nbsp;';
+      info.innerHTML = 'Версия: <span>1.21.11+</span>';
     } else {
       btnBedrock.className = 'edition-btn active';
       btnJava.className = 'edition-btn inactive';
-      portInfo.innerHTML = 'Port: <span>25605</span>';
+      info.innerHTML = 'Версия: <span>1.21.11+</span> &nbsp;|&nbsp; Port: <span>25605</span>';
     }
   }
 
@@ -518,8 +578,50 @@
     });
   }
 
+  // ── Server status ──
+  (function checkStatus() {
+    fetch('https://api.mcsrvstat.us/3/server.playtanuki.fun')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var dot = document.getElementById('statusDot');
+        var txt = document.getElementById('statusText');
+        if (d.online) {
+          dot.className = 'status-dot online';
+          var players = d.players ? d.players.online : 0;
+          var max = d.players ? d.players.max : '?';
+          txt.textContent = '\u041E\u043D\u043B\u0430\u0439\u043D: ' + players + '/' + max;
+        } else {
+          dot.className = 'status-dot offline';
+          txt.textContent = '\u041E\u0444\u0444\u043B\u0430\u0439\u043D';
+        }
+      })
+      .catch(function() {
+        document.getElementById('statusDot').className = 'status-dot offline';
+        document.getElementById('statusText').textContent = '\u041D\u0435\u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D';
+      });
+  })();
+
   // ── Creeper click popup ──
-  var creeperSounds = ['Hisss...', 'Ngh!~', '\u0428\u0448\u0448\u0448...', '\u041d\u044f!'];
+  var creeperSounds = [
+    '\u0428\u0448\u0448\u0448...',
+    '\u0411\u0443\u043C?',
+    '\u041D\u044F!',
+    '\u041D\u0435 \u043F\u043E\u0434\u0445\u043E\u0434\u0438...',
+    '\u041E\u0431\u043D\u0438\u043C\u0430\u0448\u043A\u0438?',
+    '\u041C\u043D\u0435 \u043E\u0434\u0438\u043D\u043E\u043A\u043E...',
+    '\u0411\u0430\u0431\u0430\u0445!',
+    '\u042F \u0441\u0442\u0435\u0441\u043D\u044F\u044E\u0441\u044C...',
+    '\u0421\u0441\u0441\u0441...',
+    '\u041C\u0443\u0440~',
+    '\u041D\u0435 \u0431\u0435\u0439 \u043C\u0435\u043D\u044F!',
+    '\u042F \u043D\u0435 \u0432\u0437\u043E\u0440\u0432\u0443\u0441\u044C... \u043D\u0430\u0432\u0435\u0440\u043D\u043E\u0435',
+    '\u041D\u0443\u0443\u0443~',
+    '\u0422\u044B \u0442\u0430\u043A\u043E\u0439 \u0442\u0451\u043F\u043B\u044B\u0439...',
+    '\u0425\u043E\u0447\u0443 \u0432\u0437\u043E\u0440\u0432\u0430\u0442\u044C\u0441\u044F \u043E\u0442 \u0441\u0447\u0430\u0441\u0442\u044C\u044F!',
+    '\u041F\u043E\u0433\u043B\u0430\u0434\u044C \u043C\u0435\u043D\u044F...',
+    '\u042F \u043D\u0435 \u0441\u0442\u0440\u0430\u0448\u043D\u044B\u0439!',
+    '\u0428\u0448\u0448... \u044D\u0442\u043E \u043A\u043E\u043C\u043F\u043B\u0438\u043C\u0435\u043D\u0442'
+  ];
   var creeperTimeout = null;
 
   function creeperClick() {

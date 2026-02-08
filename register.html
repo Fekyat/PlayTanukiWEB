@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayTanuki — Регистрация</title>
+<link rel="icon" type="image/png" href="browsericon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ RESET ═══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ═══ FONTS ═══ */
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-c.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold-c.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftSeven';
+    src: url('Minecraft Seven_2.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftTen';
+    src: url('MinecraftTen-VGORe.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+
+  /* ═══ TOKENS ═══ */
+  :root {
+    --color-primary:    #3c8527;
+    --color-primary-lt: #4a9e30;
+    --color-tertiary:   #a0e080;
+    --color-shark:      #1d1e1e;
+    --color-soil:       #313131;
+    --color-tundora:    #404040;
+    --color-scorpion:   #5a5a5a;
+    --color-gravel:     #757575;
+    --color-dusty:      #949494;
+    --color-hint:       #d7ccc8;
+    --color-white:      #fff;
+
+    --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
+    --font-mc-five: 'MinecraftFiveOG', 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
+    --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
+
+    --bdr: 4px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-soil);
+    background-image: url('minecraft.wiki/longurls/Background-55659f57.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    image-rendering: pixelated;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ HEADER ═══ */
+  .site-header {
+    width: 100%;
+    min-height: 280px;
+    background-image: url('minecraft.wiki/longurls/Header-bac-59de7ae.png');
+    background-repeat: repeat-x;
+    background-size: auto 280px;
+    background-position: center top;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .site-header a {
+    display: flex;
+    justify-content: center;
+  }
+  .header-logo {
+    width: 500px;
+    max-width: 85%;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+  }
+
+  /* ═══ MAIN CONTENT ═══ */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 40px;
+  }
+
+  /* ── Page Title ── */
+  .page-title {
+    font-family: var(--font-mc-ten);
+    font-size: 22px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .page-subtitle {
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  /* ── Form ── */
+  .register-form {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 28px 24px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-label {
+    display: block;
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-white);
+    background: rgba(0,0,0,.4);
+    border: 2px solid var(--color-scorpion);
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus {
+    border-color: var(--color-primary);
+  }
+  .form-input::placeholder {
+    color: var(--color-scorpion);
+  }
+
+  /* ── Submit Button ── */
+  .btn-submit {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-white);
+    background: var(--color-primary);
+    border: none;
+    outline: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: filter .12s, background .12s;
+    -webkit-font-smoothing: antialiased;
+    clip-path: polygon(
+      0 var(--bdr),
+      var(--bdr) var(--bdr),
+      var(--bdr) 0,
+      calc(100% - var(--bdr)) 0,
+      calc(100% - var(--bdr)) var(--bdr),
+      100% var(--bdr),
+      100% calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) 100%,
+      var(--bdr) 100%,
+      var(--bdr) calc(100% - var(--bdr)),
+      0 calc(100% - var(--bdr))
+    );
+    box-shadow:
+      inset 0 -3px 0 rgba(0,0,0,.25),
+      inset 0  3px 0 rgba(255,255,255,.15);
+  }
+  .btn-submit:hover {
+    background: var(--color-primary-lt);
+  }
+  .btn-submit:active {
+    box-shadow:
+      inset 0 0 0 100px rgba(255,255,255,.2),
+      inset 0 3px 0 rgba(0,0,0,.15);
+  }
+  .btn-submit:disabled {
+    background: var(--color-scorpion);
+    cursor: not-allowed;
+  }
+
+  /* ── Messages ── */
+  .form-message {
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    margin-top: 16px;
+    min-height: 20px;
+  }
+  .form-message.success {
+    color: var(--color-tertiary);
+  }
+  .form-message.error {
+    color: #e04848;
+  }
+
+  /* ── Back link ── */
+  .back-link {
+    margin-top: 24px;
+  }
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: #86D562;
+    text-decoration: none;
+    padding: 12px 4px;
+    border-bottom: 2px solid #86D562;
+    transition: color .15s, border-color .15s;
+  }
+  .back-link a:hover {
+    color: #9de87a;
+    border-color: #9de87a;
+  }
+  .back-link .arrow {
+    display: inline-flex;
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .back-link a:hover .arrow {
+    transform: translateX(-3px);
+  }
+
+  /* ═══ FOOTER ═══ */
+  .site-footer {
+    text-align: center;
+    padding: 40px 24px 32px;
+    border-top: 3px solid var(--color-tundora);
+  }
+  .footer-text {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    letter-spacing: 1px;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 640px) {
+    .site-header { min-height: 200px; background-size: auto 200px; }
+    .header-logo { width: 320px; }
+    .main-content { padding: 32px 16px 32px; }
+    .page-title { font-size: 18px; }
+    .register-form { padding: 20px 16px; }
+    .back-link a { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="index.html"><img class="header-logo" src="minecraft_title.png" alt="PlayTanuki"></a>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main-content">
+
+  <div class="page-title">Регистрация</div>
+  <div class="page-subtitle">Зарегистрируйся, чтобы попасть в вайтлист</div>
+
+  <div class="register-form">
+    <div class="form-group">
+      <label class="form-label" for="username">Никнейм</label>
+      <input class="form-input" type="text" id="username" placeholder="Твой ник в Minecraft" autocomplete="off" maxlength="16">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="password">Пароль</label>
+      <input class="form-input" type="password" id="password" placeholder="Придумай пароль" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="passwordConfirm">Подтверди пароль</label>
+      <input class="form-input" type="password" id="passwordConfirm" placeholder="Повтори пароль" autocomplete="new-password">
+    </div>
+    <div class="form-group" style="margin-bottom:0">
+      <label class="form-label" for="contact">Telegram или Discord</label>
+      <input class="form-input" type="text" id="contact" placeholder="@username или name#1234" autocomplete="off">
+    </div>
+    <div class="form-message" id="formMessage"></div>
+    <button class="btn-submit" id="btnSubmit" onclick="register()">Зарегистрироваться</button>
+  </div>
+
+  <div class="back-link">
+    <a href="index.html">
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Назад на главную</span>
+    </a>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-text">Создано Fekyat/Фекиат</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  var SUPABASE_URL = 'https://bdwrvonkykccirctxrcc.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkd3J2b25reWtjY2lyY3R4cmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDUwOTIsImV4cCI6MjA4NjEyMTA5Mn0.2OuWJw0PzOAhItibqfynmIFHz7bLAUSyBOyPrigDE6A';
+  var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Simple SHA-256 hash
+  async function hashPassword(password) {
+    var encoder = new TextEncoder();
+    var data = encoder.encode(password);
+    var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  async function register() {
+    var btn = document.getElementById('btnSubmit');
+    var msg = document.getElementById('formMessage');
+    var username = document.getElementById('username').value.trim();
+    var password = document.getElementById('password').value;
+    var passwordConfirm = document.getElementById('passwordConfirm').value;
+    var contact = document.getElementById('contact').value.trim();
+
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    // Validate username
+    if (!username) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи никнейм!';
+      return;
+    }
+    if (username.length < 3 || username.length > 16) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ник: от 3 до 16 символов';
+      return;
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Только латиница, цифры и _';
+      return;
+    }
+
+    // Validate password
+    if (!password) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи пароль!';
+      return;
+    }
+    if (password.length < 6) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Пароль: минимум 6 символов';
+      return;
+    }
+    if (password !== passwordConfirm) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Пароли не совпадают!';
+      return;
+    }
+
+    // Validate contact
+    if (!contact) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи Telegram или Discord!';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Регистрация...';
+
+    try {
+      var password_hash = await hashPassword(password);
+
+      var { data, error } = await db
+        .from('players')
+        .insert([{ username: username, password_hash: password_hash, contact: contact, status: 'pending' }]);
+
+      if (error) {
+        if (error.code === '23505') {
+          msg.className = 'form-message error';
+          msg.textContent = 'Этот ник уже занят!';
+        } else {
+          msg.className = 'form-message error';
+          msg.textContent = 'Ошибка: ' + error.message;
+        }
+      } else {
+        msg.className = 'form-message success';
+        msg.textContent = 'Заявка отправлена! Ожидай одобрения.';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('passwordConfirm').value = '';
+        document.getElementById('contact').value = '';
+      }
+    } catch (e) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка соединения';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Зарегистрироваться';
+  }
+
+  // Allow Enter key to submit
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') register();
+  });
+</script>
+
+</body>
+</html>
