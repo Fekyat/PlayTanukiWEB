@@ -727,13 +727,13 @@
       <div class="cat-icon">/c</div>
       <h2 class="cat-title">Регионы</h2>
     </div>
-    <p class="cat-desc">Система приватных территорий. Выделите зону палкой (2 точки) и создайте регион. По умолчанию можно создать до 5 регионов. Поддержка Java и Bedrock Edition.</p>
+    <p class="cat-desc">Система приватных территорий. Выделите зону палкой (2 точки) и создайте регион. Регион ограничен по всем трём осям (X, Y, Z) — защищается только выделенная высота, пространство выше и ниже остаётся свободным. По умолчанию можно создать до 5 регионов. Поддержка Java и Bedrock Edition.</p>
 
     <div class="cmd">
       <div class="cmd-head">
         <div class="cmd-name">/claim</div>
       </div>
-      <div class="cmd-body">Создать регион по двум выделенным точкам или открыть меню управления текущим регионом. Система проверяет минимальный и максимальный размер, а также пересечения с другими регионами.</div>
+      <div class="cmd-body">Создать регион по двум выделенным точкам или открыть меню управления текущим регионом. Регион учитывает высоту (Y) — защищается только выделенный объём, а не весь столб от бедрока до неба. Система проверяет минимальный и максимальный размер, а также пересечения с другими регионами.</div>
       <div class="cmd-tags">
         <span class="tag tag-perm">tanuki.claim.create</span>
       </div>
@@ -859,12 +859,22 @@
         <span class="tag tag-cool">Таймаут: 60 сек.</span>
       </div>
     </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/refreshskin</div>
+      </div>
+      <div class="cmd-body">Обновить скин с сайта. Если ты загрузил новый скин в личном кабинете, эта команда применит его без перезахода. Сервер также автоматически проверяет обновления скинов каждые 30 секунд.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.skin.refresh</span>
+      </div>
+    </div>
   </section>
 
 
   <!-- ═══ FOOTER ═══ -->
   <footer class="site-footer">
-    <div class="footer-text">TanukiEssentials &bull; 26 команд &bull; 6 категорий</div>
+    <div class="footer-text">TanukiEssentials &bull; 27 команд &bull; 6 категорий</div>
   </footer>
 
 </div>

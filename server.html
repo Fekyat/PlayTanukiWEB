@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayTanuki — Сервер</title>
+<link rel="icon" type="image/png" href="browsericon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ RESET ═══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ═══ FONTS ═══ */
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-c.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold-c.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftSeven';
+    src: url('Minecraft Seven_2.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFiveOG';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftTen';
+    src: url('MinecraftTen-VGORe.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+
+  /* ═══ TOKENS ═══ */
+  :root {
+    --color-primary:    #3c8527;
+    --color-primary-lt: #4a9e30;
+    --color-tertiary:   #a0e080;
+    --color-shark:      #1d1e1e;
+    --color-soil:       #313131;
+    --color-tundora:    #404040;
+    --color-scorpion:   #5a5a5a;
+    --color-gravel:     #757575;
+    --color-dusty:      #949494;
+    --color-hint:       #d7ccc8;
+    --color-white:      #fff;
+
+    --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
+    --font-mc-five: 'MinecraftFiveOG', 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
+    --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
+
+    --bdr: 4px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-soil);
+    background-image: url('minecraft.wiki/longurls/Background-55659f57.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    image-rendering: pixelated;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ HEADER ═══ */
+  .site-header {
+    width: 100%;
+    min-height: 280px;
+    background-image: url('minecraft.wiki/longurls/Header-bac-59de7ae.png');
+    background-repeat: repeat-x;
+    background-size: auto 280px;
+    background-position: center top;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .site-header a { display: flex; justify-content: center; }
+  .header-logo {
+    width: 500px;
+    max-width: 85%;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+  }
+
+  /* ═══ MAIN ═══ */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 24px 32px;
+  }
+
+  .page-title {
+    font-family: var(--font-mc-ten);
+    font-size: 22px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* ═══ LOGIN GATE ═══ */
+  .panel {
+    width: 100%;
+    max-width: 440px;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 28px 24px;
+  }
+  .form-group { margin-bottom: 12px; }
+  .form-label {
+    display: block;
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--color-white);
+    background: rgba(0,0,0,.4);
+    border: 2px solid var(--color-scorpion);
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus { border-color: var(--color-primary); }
+  .form-input::placeholder { color: var(--color-scorpion); font-size: 13px; }
+  .form-message {
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    margin-top: 16px;
+    min-height: 18px;
+  }
+  .form-message.success { color: var(--color-tertiary); }
+  .form-message.error { color: #e04848; }
+
+  /* ── MC Button ── */
+  .mc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-white);
+    border: none;
+    outline: none;
+    padding: 11px 24px;
+    cursor: pointer;
+    transition: filter .12s, background .12s;
+    clip-path: polygon(
+      0 var(--bdr), var(--bdr) var(--bdr), var(--bdr) 0,
+      calc(100% - var(--bdr)) 0, calc(100% - var(--bdr)) var(--bdr), 100% var(--bdr),
+      100% calc(100% - var(--bdr)), calc(100% - var(--bdr)) calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) 100%, var(--bdr) 100%,
+      var(--bdr) calc(100% - var(--bdr)), 0 calc(100% - var(--bdr))
+    );
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 3px 0 rgba(255,255,255,.15);
+  }
+  .mc-btn:active {
+    box-shadow: inset 0 0 0 100px rgba(255,255,255,.2), inset 0 3px 0 rgba(0,0,0,.15);
+  }
+  .mc-btn.green { background: var(--color-primary); }
+  .mc-btn.green:hover { background: var(--color-primary-lt); }
+  .mc-btn.full { width: 100%; }
+
+  /* ═══ BENTO GRID ═══ */
+  .bento {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    width: 100%;
+    max-width: 1100px;
+  }
+
+  .bento-tile {
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 16px;
+    min-width: 0;
+  }
+
+  .tile-title {
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--color-tundora);
+  }
+
+  /* ── Map tile (big, spans left column both rows) ── */
+  .tile-map {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    padding: 0;
+    overflow: hidden;
+    min-height: 500px;
+    position: relative;
+  }
+  .tile-map .tile-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: 12px 16px 8px;
+    margin: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,.7) 0%, rgba(0,0,0,.3) 70%, transparent 100%);
+    border-bottom: none;
+  }
+  .tile-map iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .map-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 12px;
+    color: var(--color-scorpion);
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    padding: 40px;
+    text-align: center;
+  }
+  .map-placeholder svg {
+    width: 48px;
+    height: 48px;
+    opacity: .3;
+  }
+
+  /* ── Chat tile (right top) ── */
+  .tile-chat {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+    max-height: 380px;
+    overflow: hidden;
+  }
+  .chat-feed {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 0;
+  }
+  .chat-feed::-webkit-scrollbar { width: 4px; }
+  .chat-feed::-webkit-scrollbar-track { background: transparent; }
+  .chat-feed::-webkit-scrollbar-thumb { background: var(--color-tundora); }
+
+  .chat-msg {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    padding: 3px 0;
+    word-break: break-word;
+  }
+  .chat-msg .chat-user {
+    color: var(--color-tertiary);
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+  }
+  .chat-msg .chat-time {
+    color: var(--color-scorpion);
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    margin-left: 4px;
+  }
+  .chat-empty {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    padding: 24px 0;
+  }
+  .chat-live-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #4ade80;
+    border-radius: 1px;
+    margin-left: 6px;
+    animation: livePulse 1.5s ease-in-out infinite;
+    vertical-align: middle;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
+  }
+
+  /* ── Players + Stats tile (right bottom) ── */
+  .tile-info {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .info-section { margin-bottom: 14px; }
+  .info-section:last-child { margin-bottom: 0; }
+  .info-subtitle {
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .players-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .player-tag {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    background: rgba(0,0,0,.3);
+    border: 1px solid var(--color-tundora);
+    padding: 4px 8px;
+  }
+  .players-empty {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .stat-box {
+    background: rgba(0,0,0,.25);
+    border: 1px solid var(--color-tundora);
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: var(--font-mc-five);
+    font-size: 16px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .stat-label {
+    font-family: var(--font-mc-five);
+    font-size: 8px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ── Back link ── */
+  .back-link { margin-top: 24px; }
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: #86D562;
+    text-decoration: none;
+    padding: 12px 4px;
+    border-bottom: 2px solid #86D562;
+    transition: color .15s, border-color .15s;
+  }
+  .back-link a:hover { color: #9de87a; border-color: #9de87a; }
+  .back-link .arrow {
+    display: inline-flex;
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .back-link a:hover .arrow { transform: translateX(-3px); }
+
+  /* ═══ FOOTER ═══ */
+  .site-footer {
+    text-align: center;
+    padding: 40px 24px 32px;
+    border-top: 3px solid var(--color-tundora);
+  }
+  .footer-text {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    letter-spacing: 1px;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 800px) {
+    .site-header { min-height: 200px; background-size: auto 200px; }
+    .header-logo { width: 320px; }
+    .main-content { padding: 32px 12px 32px; }
+    .page-title { font-size: 18px; }
+    .bento {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+    .tile-map {
+      grid-column: 1;
+      grid-row: auto;
+      min-height: 350px;
+    }
+    .tile-chat {
+      grid-column: 1;
+      grid-row: auto;
+      height: 300px;
+      max-height: 300px;
+    }
+    .tile-info {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="index.html"><img class="header-logo" src="minecraft_title.png" alt="PlayTanuki"></a>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main-content">
+
+  <!-- Login gate -->
+  <div id="loginSection">
+    <div class="page-title">Сервер</div>
+    <div class="panel">
+      <div style="font-family: var(--font-mc-seven); font-size: 13px; color: var(--color-dusty); text-shadow: 2px 2px 0 rgba(0,0,0,.6); text-align: center; margin-bottom: 16px;">
+        Войди чтобы увидеть чат, карту и информацию о сервере
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="loginUser">Никнейм</label>
+        <input class="form-input" type="text" id="loginUser" placeholder="Твой ник" autocomplete="off">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="loginPass">Пароль</label>
+        <input class="form-input" type="password" id="loginPass" placeholder="Твой пароль">
+      </div>
+      <div class="form-message" id="loginMessage"></div>
+      <button class="mc-btn green full" onclick="login()">Войти</button>
+    </div>
+    <div class="back-link">
+      <a href="index.html">
+        <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Назад на главную</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Server dashboard (hidden until login) -->
+  <div id="serverSection" style="display:none; width:100%; flex-direction:column; align-items:center;">
+    <div class="page-title">Сервер</div>
+
+    <div class="bento">
+
+      <!-- MAP — big left tile spanning 2 rows -->
+      <div class="bento-tile tile-map">
+        <div class="tile-title">Карта мира</div>
+        <!-- Replace src with your BlueMap URL when ready -->
+        <iframe src="http://server.playtanuki.fun:25962/" allowfullscreen></iframe>
+      </div>
+
+      <!-- CHAT — right top -->
+      <div class="bento-tile tile-chat">
+        <div class="tile-title">Чат сервера <span class="chat-live-dot"></span></div>
+        <div class="chat-feed" id="chatFeed">
+          <div class="chat-empty">Загрузка чата...</div>
+        </div>
+      </div>
+
+      <!-- PLAYERS + STATS — right bottom -->
+      <div class="bento-tile tile-info">
+        <div class="tile-title">Информация</div>
+
+        <div class="info-section">
+          <div class="info-subtitle">Сейчас онлайн</div>
+          <div id="onlinePlayers">
+            <div class="players-empty">Проверяем...</div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-subtitle">Статистика</div>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-val" id="statPlayers">—</div>
+              <div class="stat-label">Игроков</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="statOnline">—</div>
+              <div class="stat-label">Онлайн</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="statStatus">—</div>
+              <div class="stat-label">Статус</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val" id="statVersion">—</div>
+              <div class="stat-label">Версия</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">
+        <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Назад на главную</span>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-text">Создано Fekyat/Фекиат</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  var SUPABASE_URL = 'https://bdwrvonkykccirctxrcc.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkd3J2b25reWtjY2lyY3R4cmNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1NDUwOTIsImV4cCI6MjA4NjEyMTA5Mn0.2OuWJw0PzOAhItibqfynmIFHz7bLAUSyBOyPrigDE6A';
+  var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  var currentPlayer = null;
+  var chatSubscription = null;
+
+  async function hashPassword(password) {
+    var encoder = new TextEncoder();
+    var data = encoder.encode(password);
+    var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    var hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  function nameColor(name) {
+    var hash = 0;
+    for (var i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    var h = ((hash % 360) + 360) % 360;
+    return 'hsl(' + h + ', 70%, 65%)';
+  }
+
+  function escapeHtml(text) {
+    var div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ═══ LOGIN ═══
+  async function login() {
+    var msg = document.getElementById('loginMessage');
+    var username = document.getElementById('loginUser').value.trim();
+    var password = document.getElementById('loginPass').value;
+
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (!username || !password) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Заполни все поля!';
+      return;
+    }
+
+    var hash = await hashPassword(password);
+
+    var { data, error } = await db
+      .from('players')
+      .select('*')
+      .eq('username', username)
+      .eq('password_hash', hash)
+      .single();
+
+    if (error || !data) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Неверный ник или пароль!';
+      return;
+    }
+
+    if (data.status !== 'approved') {
+      msg.className = 'form-message error';
+      if (data.status === 'pending') msg.textContent = 'Заявка ещё на рассмотрении!';
+      else if (data.status === 'banned') msg.textContent = 'Ты забанен!';
+      else msg.textContent = 'Заявка отклонена!';
+      return;
+    }
+
+    currentPlayer = data;
+    localStorage.setItem('player_id', data.id);
+    localStorage.setItem('player_hash', hash);
+    showDashboard();
+  }
+
+  function showDashboard() {
+    document.getElementById('loginSection').style.display = 'none';
+    var sec = document.getElementById('serverSection');
+    sec.style.display = 'flex';
+
+    loadChat();
+    loadServerInfo();
+    subscribeChat();
+  }
+
+  // ═══ CHAT ═══
+  async function loadChat() {
+    var feed = document.getElementById('chatFeed');
+
+    var { data, error } = await db
+      .from('chat_messages')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (error || !data || data.length === 0) {
+      feed.innerHTML = '<div class="chat-empty">Пока нет сообщений</div>';
+      return;
+    }
+
+    // Reverse so oldest is on top, newest at bottom
+    data.reverse();
+    feed.innerHTML = '';
+    data.forEach(function(m) { appendChatMessage(m, false); });
+    feed.scrollTop = feed.scrollHeight;
+  }
+
+  function appendChatMessage(m, scroll) {
+    var feed = document.getElementById('chatFeed');
+
+    // Remove empty placeholder if present
+    var empty = feed.querySelector('.chat-empty');
+    if (empty) empty.remove();
+
+    var time = new Date(m.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    var div = document.createElement('div');
+    div.className = 'chat-msg';
+    var color = nameColor(m.username);
+    div.innerHTML = '<span class="chat-user" style="color:' + color + '">&lt;' + escapeHtml(m.username) + '&gt;</span> '
+                  + escapeHtml(m.message)
+                  + '<span class="chat-time">' + time + '</span>';
+    feed.appendChild(div);
+
+    // Keep max 100 messages in DOM
+    while (feed.children.length > 100) {
+      feed.removeChild(feed.firstChild);
+    }
+
+    if (scroll !== false) {
+      feed.scrollTop = feed.scrollHeight;
+    }
+  }
+
+  function subscribeChat() {
+    chatSubscription = db
+      .channel('chat-realtime')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'chat_messages'
+      }, function(payload) {
+        appendChatMessage(payload.new, true);
+      })
+      .subscribe();
+  }
+
+  // ═══ SERVER INFO ═══
+  function loadServerInfo() {
+    // Online players from mcsrvstat
+    fetch('https://api.mcsrvstat.us/3/server.playtanuki.fun')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var playersEl = document.getElementById('onlinePlayers');
+        var statOnline = document.getElementById('statOnline');
+        var statStatus = document.getElementById('statStatus');
+        var statVersion = document.getElementById('statVersion');
+
+        if (d.online) {
+          var count = d.players ? d.players.online : 0;
+          var max = d.players ? d.players.max : '?';
+          statOnline.textContent = count + '/' + max;
+          statStatus.textContent = 'Онлайн';
+          statStatus.style.color = '#4ade80';
+
+          if (d.version) {
+            statVersion.textContent = d.version;
+          }
+
+          if (d.players && d.players.list && d.players.list.length > 0) {
+            var html = '<div class="players-list">';
+            d.players.list.forEach(function(p) {
+              html += '<div class="player-tag">' + escapeHtml(p.name) + '</div>';
+            });
+            html += '</div>';
+            playersEl.innerHTML = html;
+          } else if (count > 0) {
+            playersEl.innerHTML = '<div class="players-empty">' + count + ' игрок(ов) онлайн</div>';
+          } else {
+            playersEl.innerHTML = '<div class="players-empty">Никого нет</div>';
+          }
+        } else {
+          statOnline.textContent = '0';
+          statStatus.textContent = 'Оффлайн';
+          statStatus.style.color = '#e04848';
+          playersEl.innerHTML = '<div class="players-empty">Сервер оффлайн</div>';
+        }
+      })
+      .catch(function() {
+        document.getElementById('statStatus').textContent = '?';
+        document.getElementById('onlinePlayers').innerHTML = '<div class="players-empty">Не удалось загрузить</div>';
+      });
+
+    // Total registered players
+    db.from('players').select('id', { count: 'exact', head: true })
+      .then(function(res) {
+        document.getElementById('statPlayers').textContent = res.count || '?';
+      });
+  }
+
+  // ═══ AUTO-LOGIN ═══
+  (async function() {
+    var id = localStorage.getItem('player_id');
+    var hash = localStorage.getItem('player_hash');
+    if (id && hash) {
+      var { data } = await db
+        .from('players')
+        .select('*')
+        .eq('id', id)
+        .eq('password_hash', hash)
+        .single();
+      if (data && data.status === 'approved') {
+        currentPlayer = data;
+        showDashboard();
+      }
+    }
+  })();
+
+  // Enter to login
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('loginSection').style.display !== 'none') {
+      login();
+    }
+  });
+</script>
+
+</body>
+</html>
