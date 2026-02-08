@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c:*)",
+      "Bash(start \"\" \"C:\\\\Users\\\\Mochi\\\\Downloads\\\\Добро пожаловать на официальный сайт Minecraft _ Minecraft_files\\\\buttons-showcase.html\")",
+      "Bash(start \"\" \"C:\\\\Users\\\\Mochi\\\\Downloads\\\\Добро пожаловать на официальный сайт Minecraft _ Minecraft_files\\\\tanuki-commands.html\")",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(dir:*)"
+    ]
+  }
+}

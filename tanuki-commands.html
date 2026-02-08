@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TanukiEssentials — Команды</title>
+<link rel="icon" type="image/png" href="browsericon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ RESET ═══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ═══ FONTS — Minecraft official set ═══ */
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftSeven';
+    src: url('Minecraft Seven_2.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftTen';
+    src: url('MinecraftTen-VGORe.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+
+  /* ═══ MOJANG WEB-THEME TOKENS ═══ */
+  :root {
+    /* Primary palette from web-theme-bootstrap */
+    --color-primary:              #3c8527;  /* Fun Green */
+    --color-primary-supportive:   #2b6e19;
+    --color-secondary:            #1d1e1e;  /* Shark */
+    --color-tertiary:             #a0e080;  /* Malachite */
+    --color-quaternary:           #996a41;  /* Mud */
+    --color-quinary:              #5a381e;  /* Dirt */
+
+    /* Grayscale from theme */
+    --color-shark:    #1d1e1e;
+    --color-soil:     #313131;
+    --color-tundora:  #404040;
+    --color-scorpion: #5a5a5a;
+    --color-gravel:   #757575;
+    --color-dusty:    #949494;
+    --color-hint:     #d7ccc8;
+    --color-white:    #fff;
+    --color-black:    #000;
+
+    /* Category accent colors */
+    --cat-tp:     #86D562;
+    --cat-home:   #EDAF2A;
+    --cat-warp:   #5BA4E0;
+    --cat-claim:  #A78BFA;
+    --cat-util:   #E04848;
+
+    /* Shadows from theme */
+    --default-shadow:     0 2px 0 rgba(0,0,0,.25);
+    --default-box-shadow: 0 4px 0 0 rgba(0,0,0,.15);
+
+    /* Fonts */
+    --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
+    --font-mc-five: 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
+    --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-soil);
+    background-image: url('minecraft.wiki/longurls/Background-55659f57.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    image-rendering: pixelated;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code {
+    font-family: var(--font-mc-five);
+    font-size: .8em;
+    color: var(--color-tertiary);
+    background: rgba(60,133,39,.12);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  /* ═══════════════════════════════════════════
+     HEADER — repeating-x grass/dirt/sky banner
+     ═══════════════════════════════════════════ */
+  .site-header {
+    width: 100%;
+    min-height: 260px;
+    background-image: url('minecraft.wiki/longurls/Header-bac-59de7ae.png');
+    background-repeat: repeat-x;
+    background-size: auto 260px;
+    background-position: center top;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+  }
+  .site-header::after {
+    content: none;
+  }
+  .site-header a {
+    display: flex;
+    justify-content: center;
+  }
+  .header-logo {
+    width: 260px;
+    margin-bottom: 6px;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+  }
+  .header-title {
+    font-family: var(--font-mc-ten);
+    font-size: 36px;
+    color: var(--color-white);
+    text-shadow: 4px 4px 0 rgba(0,0,0,.7), 2px 2px 0 rgba(0,0,0,.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-sub {
+    font-family: var(--font-mc-seven);
+    font-size: 18px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.8);
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════════════════════════════════════
+     LAYOUT
+     ═══════════════════════════════════════════ */
+  .page-wrapper {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ═══════════════════════════════════════════
+     NAV — sticky category bar
+     ═══════════════════════════════════════════ */
+  .nav-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 18px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(29,30,30,.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin: 0 -24px;
+    border-bottom: 3px solid var(--color-tundora);
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  }
+
+  /* ═══════════════════════════════════════════
+     BUTTONS — Mojang web-theme-bootstrap style
+     Uses ::before/::after pseudo-elements for
+     3D beveled depth, uppercase text, and
+     white overlay on :active (no shrink).
+     ═══════════════════════════════════════════ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
+    user-select: none;
+  }
+
+  /* Arrow icon */
+  .btn .arrow {
+    display: inline-flex;
+    width: 14px; height: 14px;
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ── HERO (filled) — primary CTA ── */
+  .btn-hero {
+    padding: 14px 28px;
+    color: var(--color-shark);
+    box-shadow:
+      var(--default-shadow),
+      inset 0 -3px 0 rgba(0,0,0,.2),
+      inset 0 2px 0 rgba(255,255,255,.15);
+  }
+  .btn-hero:hover {
+    box-shadow:
+      0 2px 0 rgba(0,0,0,.25),
+      0 0 12px rgba(255,255,255,.1),
+      inset 0 -3px 0 rgba(0,0,0,.2),
+      inset 0 2px 0 rgba(255,255,255,.2);
+  }
+  /* Active: white fill overlay — NO shrink */
+  .btn-hero:active {
+    box-shadow:
+      inset 0 0 0 200px rgba(255,255,255,.22),
+      inset 0 2px 0 rgba(0,0,0,.12);
+  }
+
+  /* Color fills */
+  .btn-green    { background: var(--color-primary); color: var(--color-white); }
+  .btn-green:hover { background: #4a9e30; }
+
+  .btn-green-lt { background: var(--color-tertiary); color: var(--color-shark); }
+  .btn-green-lt:hover { background: #b5f098; }
+
+  .btn-gold     { background: #C89225; color: var(--color-shark); }
+  .btn-gold:hover { background: #EDAF2A; }
+
+  .btn-blue     { background: #3B82C4; color: var(--color-white); }
+  .btn-blue:hover { background: #5BA4E0; }
+
+  .btn-purple   { background: #7C3AED; color: var(--color-white); }
+  .btn-purple:hover { background: #8B5CF6; }
+
+  .btn-red      { background: #BE2A2A; color: var(--color-white); }
+  .btn-red:hover { background: #E04848; }
+
+  /* ── OUTLINE ── */
+  .btn-outline {
+    padding: 11px 22px;
+    background: transparent;
+    border: 3px solid currentColor;
+  }
+  .btn-outline:hover {
+    color: var(--color-shark) !important;
+  }
+  /* Active: white fill */
+  .btn-outline:active {
+    background: rgba(255,255,255,.92) !important;
+    color: var(--color-shark) !important;
+    border-color: var(--color-white) !important;
+  }
+
+  .btn-outline.o-green  { color: var(--cat-tp); }
+  .btn-outline.o-green:hover  { background: var(--cat-tp); }
+  .btn-outline.o-gold   { color: var(--cat-home); }
+  .btn-outline.o-gold:hover   { background: var(--cat-home); }
+  .btn-outline.o-blue   { color: var(--cat-warp); }
+  .btn-outline.o-blue:hover   { background: var(--cat-warp); }
+  .btn-outline.o-purple { color: var(--cat-claim); }
+  .btn-outline.o-purple:hover { background: var(--cat-claim); }
+  .btn-outline.o-red    { color: var(--cat-util); }
+  .btn-outline.o-red:hover    { background: var(--cat-util); }
+
+  .btn-sm { padding: 9px 18px; font-size: 13px; }
+
+  /* ═══════════════════════════════════════════
+     CATEGORY SECTIONS
+     ═══════════════════════════════════════════ */
+  .category {
+    margin-top: 48px;
+    margin-bottom: 56px;
+  }
+  .category:first-of-type { margin-top: 32px; }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    padding-bottom: 14px;
+    border-bottom: 3px solid var(--color-tundora);
+  }
+  .cat-icon {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    background: rgba(255,255,255,.04);
+    border: 2px solid var(--color-tundora);
+    flex-shrink: 0;
+  }
+  .cat-title {
+    font-family: var(--font-mc-ten);
+    font-size: 24px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 0 rgba(0,0,0,.5);
+  }
+  .cat-tp    .cat-title { color: var(--cat-tp); }
+  .cat-home  .cat-title { color: var(--cat-home); }
+  .cat-warp  .cat-title { color: var(--cat-warp); }
+  .cat-claim .cat-title { color: var(--cat-claim); }
+  .cat-util  .cat-title { color: var(--cat-util); }
+
+  .cat-desc {
+    font-size: 14px;
+    color: var(--color-dusty);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    padding-left: 60px;
+  }
+
+  /* ═══════════════════════════════════════════
+     COMMAND CARDS
+     ═══════════════════════════════════════════ */
+  .cmd {
+    background: rgba(29,30,30,.85);
+    border: 2px solid var(--color-tundora);
+    margin-bottom: 10px;
+    padding: 18px 24px;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+  }
+  .cmd:hover {
+    border-color: var(--color-scorpion);
+    background: rgba(40,40,40,.92);
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  }
+
+  .cmd-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .cmd-name {
+    font-family: 'MinecraftFive', 'MinecraftSeven', 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: .5px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+  }
+  .cat-tp    .cmd-name { color: var(--cat-tp); }
+  .cat-home  .cmd-name { color: var(--cat-home); }
+  .cat-warp  .cmd-name { color: var(--cat-warp); }
+  .cat-claim .cmd-name { color: var(--cat-claim); }
+  .cat-util  .cmd-name { color: var(--cat-util); }
+
+  .cmd-alias {
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    color: var(--color-gravel);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cmd-alias-tag {
+    background: rgba(255,255,255,.05);
+    border: 1px solid var(--color-tundora);
+    padding: 2px 8px;
+    color: var(--color-dusty);
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+  }
+
+  .cmd-body {
+    font-size: 14px;
+    color: var(--color-hint);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .cmd-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    letter-spacing: .5px;
+    padding: 4px 12px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--color-tundora);
+    color: var(--color-gravel);
+  }
+  /* Tag icon dot */
+  .tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+  .tag-perm { color: #6dd46d; border-color: rgba(60,133,39,.35); font-family: var(--font-mc-five); }
+  .tag-perm::before { background: #3c8527; }
+  .tag-args { color: #edaf2a; border-color: rgba(200,146,37,.3); }
+  .tag-args::before { background: #c89225; }
+  .tag-cool { color: #e04848; border-color: rgba(190,42,42,.3); }
+  .tag-cool::before { background: #be2a2a; }
+  .tag-admin {
+    color: #ff7b7b;
+    border-color: rgba(190,42,42,.35);
+    background: rgba(190,42,42,.1);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .tag-admin::before { background: #e04848; }
+
+  /* ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ */
+  .site-footer {
+    text-align: center;
+    padding: 40px 24px 24px;
+    border-top: 3px solid var(--color-tundora);
+    margin-top: 24px;
+  }
+  .footer-text {
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    color: var(--color-scorpion);
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════ */
+  @media (max-width: 640px) {
+    .site-header { min-height: 200px; background-size: auto 200px; }
+    .header-title { font-size: 24px; }
+    .header-logo { width: 200px; }
+    .header-sub { font-size: 14px; }
+    .page-wrapper { padding: 0 16px 60px; }
+    .nav-bar { gap: 6px; padding: 12px 16px; margin: 0 -16px; }
+    .btn-sm { padding: 7px 12px; font-size: 11px; }
+    .cat-desc { padding-left: 0; font-size: 13px; }
+    .cat-title { font-size: 18px; }
+    .cmd-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .cmd { padding: 14px 12px; }
+    .cmd-name { font-size: 13px; }
+    .cmd-body { font-size: 13px; }
+    .cmd-tags { gap: 4px; }
+    .tag { font-size: 11px; padding: 3px 8px; word-break: break-all; }
+    .cmd-alias { font-size: 12px; }
+    .cmd-alias-tag { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="index.html"><img class="header-logo" src="minecraft_title.png" alt="PlayTanuki"></a>
+  <div class="header-title">TanukiEssentials</div>
+  <div class="header-sub">Справочник команд плагина</div>
+</header>
+
+<!-- ═══ PAGE ═══ -->
+<div class="page-wrapper">
+
+  <!-- NAV -->
+  <nav class="nav-bar">
+    <a href="#teleport" class="btn btn-outline btn-sm o-green"><span>Телепортация</span></a>
+    <a href="#homes"    class="btn btn-outline btn-sm o-gold"><span>Дома</span></a>
+    <a href="#warps"    class="btn btn-outline btn-sm o-blue"><span>Варпы</span></a>
+    <a href="#claims"   class="btn btn-outline btn-sm o-purple"><span>Регионы</span></a>
+    <a href="#utility"  class="btn btn-outline btn-sm o-red"><span>Утилиты</span></a>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════
+       ТЕЛЕПОРТАЦИЯ
+       ══════════════════════════════════════ -->
+  <section id="teleport" class="category cat-tp">
+    <div class="cat-header">
+      <div class="cat-icon">/tp</div>
+      <h2 class="cat-title">Телепортация</h2>
+    </div>
+    <p class="cat-desc">Основные команды перемещения по серверу: спавн, случайная телепортация, запросы TPA и возврат назад.</p>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/spawn</div>
+      </div>
+      <div class="cmd-body">Телепортация на точку спавна сервера.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.spawn</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/setspawn</div>
+        <span class="tag tag-admin">OP</span>
+      </div>
+      <div class="cmd-body">Установить точку спавна сервера на текущую позицию.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.admin.setspawn</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/back</div>
+      </div>
+      <div class="cmd-body">Вернуться на предыдущую позицию (до последней телепортации).</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.back</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tpr</div>
+        <span class="cmd-alias">алиасы: <span class="cmd-alias-tag">rtp</span> <span class="cmd-alias-tag">wild</span></span>
+      </div>
+      <div class="cmd-body">Случайная телепортация в безопасное место. Система избегает лаву, кактусы, магму и огонь. Поиск безопасной точки происходит асинхронно.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.rtp</span>
+        <span class="tag tag-cool">Кулдаун: 300 сек.</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tpa &lt;игрок&gt;</div>
+      </div>
+      <div class="cmd-body">Отправить запрос на телепортацию к указанному игроку. Игроки с правом <code>tanuki.teleport.tpbypass</code> телепортируются мгновенно.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.tpa</span>
+        <span class="tag tag-args">имя игрока</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tpahere &lt;игрок&gt;</div>
+      </div>
+      <div class="cmd-body">Отправить запрос игроку, чтобы он телепортировался к вам.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.tpa</span>
+        <span class="tag tag-args">имя игрока</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tpaccept</div>
+      </div>
+      <div class="cmd-body">Принять входящий запрос на телепортацию.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.tpa</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tpdeny</div>
+      </div>
+      <div class="cmd-body">Отклонить входящий запрос на телепортацию.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.tpa</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       ДОМА
+       ══════════════════════════════════════ -->
+  <section id="homes" class="category cat-home">
+    <div class="cat-header">
+      <div class="cat-icon">/h</div>
+      <h2 class="cat-title">Дома</h2>
+    </div>
+    <p class="cat-desc">Управление домашними точками телепортации. По умолчанию каждый игрок может сохранить до 3 домов.</p>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/home [название]</div>
+      </div>
+      <div class="cmd-body">Телепортация к сохранённому дому. Если название не указано, телепортирует к дому <code>home</code>.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.home</span>
+        <span class="tag tag-args">название дома</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/sethome [название]</div>
+      </div>
+      <div class="cmd-body">Сохранить текущую позицию как дом. Если название не указано, используется <code>home</code>. Можно обновить существующую точку.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.home</span>
+        <span class="tag tag-args">название дома</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/delhome &lt;название&gt;</div>
+      </div>
+      <div class="cmd-body">Удалить сохранённый дом.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.home</span>
+        <span class="tag tag-args">название дома</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/homes</div>
+      </div>
+      <div class="cmd-body">Показать список всех сохранённых домов с количеством и лимитом. Интерактивный список — нажмите на название, чтобы телепортироваться.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.home</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       ВАРПЫ
+       ══════════════════════════════════════ -->
+  <section id="warps" class="category cat-warp">
+    <div class="cat-header">
+      <div class="cat-icon">/w</div>
+      <h2 class="cat-title">Варпы</h2>
+    </div>
+    <p class="cat-desc">Серверные точки телепортации, созданные администрацией. Доступны для всех игроков.</p>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/warp &lt;название&gt;</div>
+      </div>
+      <div class="cmd-body">Телепортироваться на указанный серверный варп.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.warp</span>
+        <span class="tag tag-args">название варпа</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/setwarp &lt;название&gt;</div>
+        <span class="tag tag-admin">OP</span>
+      </div>
+      <div class="cmd-body">Создать новый серверный варп на текущей позиции. Нельзя создать варп с уже существующим названием.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.admin.setwarp</span>
+        <span class="tag tag-args">название варпа</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/delwarp &lt;название&gt;</div>
+        <span class="tag tag-admin">OP</span>
+      </div>
+      <div class="cmd-body">Удалить серверный варп.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.admin.delwarp</span>
+        <span class="tag tag-args">название варпа</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/warps</div>
+      </div>
+      <div class="cmd-body">Показать список всех доступных варпов. Интерактивный список — нажмите на название, чтобы телепортироваться.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.teleport.warp</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       РЕГИОНЫ
+       ══════════════════════════════════════ -->
+  <section id="claims" class="category cat-claim">
+    <div class="cat-header">
+      <div class="cat-icon">/c</div>
+      <h2 class="cat-title">Регионы</h2>
+    </div>
+    <p class="cat-desc">Система приватных территорий. Выделите зону палкой (2 точки) и создайте регион. По умолчанию можно создать до 5 регионов. Поддержка Java и Bedrock Edition.</p>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/claim</div>
+      </div>
+      <div class="cmd-body">Создать регион по двум выделенным точкам или открыть меню управления текущим регионом. Система проверяет минимальный и максимальный размер, а также пересечения с другими регионами.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.create</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/claims</div>
+      </div>
+      <div class="cmd-body">Показать список всех ваших регионов. Интерфейс адаптирован для Java и Bedrock Edition.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.create</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/unclaim</div>
+      </div>
+      <div class="cmd-body">Удалить регион, в котором вы находитесь. Только владелец или администратор может удалить регион.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.create</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/claiminfo</div>
+      </div>
+      <div class="cmd-body">Показать информацию о текущем регионе: владелец, мир, координаты, площадь, количество доверенных игроков.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.create</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/trust &lt;игрок&gt;</div>
+      </div>
+      <div class="cmd-body">Добавить игрока в список доверенных текущего региона. Только владелец или администратор может управлять доверенными.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.trust</span>
+        <span class="tag tag-args">имя игрока</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/untrust &lt;игрок&gt;</div>
+      </div>
+      <div class="cmd-body">Убрать игрока из списка доверенных текущего региона.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.trust</span>
+        <span class="tag tag-args">имя игрока</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/trustlist</div>
+      </div>
+      <div class="cmd-body">Показать список всех доверенных игроков в текущем регионе. Интерфейс адаптирован для Java и Bedrock Edition.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.claim.trust</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       УТИЛИТЫ
+       ══════════════════════════════════════ -->
+  <section id="utility" class="category cat-util">
+    <div class="cat-header">
+      <div class="cat-icon">/te</div>
+      <h2 class="cat-title">Утилиты</h2>
+    </div>
+    <p class="cat-desc">Дополнительные команды: управление HUD и справочная система плагина.</p>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tanukihud [on | off]</div>
+        <span class="cmd-alias">алиасы: <span class="cmd-alias-tag">thud</span> <span class="cmd-alias-tag">bossbar</span></span>
+      </div>
+      <div class="cmd-body">Переключить отображение HUD (BossBar). Если аргумент не указан, переключает текущее состояние. Настройка сохраняется для каждого игрока.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.bossbar.toggle</span>
+        <span class="tag tag-args">on / off</span>
+      </div>
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-head">
+        <div class="cmd-name">/tehelp [категория]</div>
+        <span class="cmd-alias">алиасы: <span class="cmd-alias-tag">tanukihelp</span> <span class="cmd-alias-tag">tecommands</span> <span class="cmd-alias-tag">te</span></span>
+      </div>
+      <div class="cmd-body">Внутриигровая справка по командам плагина. Можно указать категорию для фильтрации: <code>teleport</code>, <code>homes</code>, <code>warps</code>, <code>claims</code> или <code>all</code>.</div>
+      <div class="cmd-tags">
+        <span class="tag tag-perm">tanuki.help</span>
+        <span class="tag tag-args">категория</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer">
+    <div class="footer-text">TanukiEssentials &bull; 25 команд &bull; 5 категорий</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

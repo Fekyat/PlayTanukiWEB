@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayTanuki — Сервер</title>
+<link rel="icon" type="image/png" href="browsericon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ═══ RESET ═══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ═══ FONTS ═══ */
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five.otf.woff2') format('woff2');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftFive';
+    src: url('minecraft-five-bold.otf.woff2') format('woff2');
+    font-weight: bold; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftSeven';
+    src: url('Minecraft Seven_2.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+  @font-face {
+    font-family: 'MinecraftTen';
+    src: url('MinecraftTen-VGORe.ttf') format('truetype');
+    font-weight: normal; font-style: normal;
+  }
+
+  /* ═══ TOKENS ═══ */
+  :root {
+    --color-primary:    #3c8527;
+    --color-primary-lt: #4a9e30;
+    --color-tertiary:   #a0e080;
+    --color-shark:      #1d1e1e;
+    --color-soil:       #313131;
+    --color-tundora:    #404040;
+    --color-scorpion:   #5a5a5a;
+    --color-gravel:     #757575;
+    --color-dusty:      #949494;
+    --color-hint:       #d7ccc8;
+    --color-white:      #fff;
+
+    --font-body:    'Noto Sans', Arial, Helvetica, sans-serif;
+    --font-mc-five: 'MinecraftFive', 'Courier New', monospace;
+    --font-mc-seven:'MinecraftSeven', 'Courier New', monospace;
+    --font-mc-ten:  'MinecraftTen', 'MinecraftSeven', 'Courier New', monospace;
+
+    --bdr: 4px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-soil);
+    background-image: url('minecraft.wiki/longurls/Background-55659f57.png');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    image-rendering: pixelated;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ HEADER ═══ */
+  .site-header {
+    width: 100%;
+    min-height: 280px;
+    background-image: url('minecraft.wiki/longurls/Header-bac-59de7ae.png');
+    background-repeat: repeat-x;
+    background-size: auto 280px;
+    background-position: center top;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .site-header::after {
+    content: none;
+  }
+  .site-header a {
+    display: flex;
+    justify-content: center;
+  }
+  .header-logo {
+    width: 500px;
+    max-width: 85%;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.6));
+  }
+
+  /* ═══ MAIN CONTENT ═══ */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 40px;
+  }
+
+  /* ── Server IP ── */
+  .server-ip-box {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  /* Russian label — no MinecraftFive */
+  .server-ip-label {
+    font-family: var(--font-mc-seven);
+    font-size: 18px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.8);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .server-ip {
+    font-family: var(--font-mc-five);
+    font-size: 28px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    letter-spacing: 2px;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    user-select: all;
+    position: relative;
+  }
+  .server-ip:hover {
+    border-color: var(--color-primary);
+    background: rgba(0,0,0,.5);
+  }
+  .server-ip-copied {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mc-seven);
+    font-size: 15px;
+    color: var(--color-tertiary);
+    background: rgba(0,0,0,.7);
+    padding: 4px 12px;
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
+  }
+  .server-ip-copied.show { opacity: 1; }
+
+  /* ── Edition Toggle ── */
+  .edition-toggle {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .edition-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: 14px 32px;
+    transition: filter .12s, background .12s, color .12s;
+    -webkit-font-smoothing: antialiased;
+    clip-path: polygon(
+      0 var(--bdr),
+      var(--bdr) var(--bdr),
+      var(--bdr) 0,
+      calc(100% - var(--bdr)) 0,
+      calc(100% - var(--bdr)) var(--bdr),
+      100% var(--bdr),
+      100% calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) 100%,
+      var(--bdr) 100%,
+      var(--bdr) calc(100% - var(--bdr)),
+      0 calc(100% - var(--bdr))
+    );
+    box-shadow:
+      inset 0 -3px 0 rgba(0,0,0,.25),
+      inset 0  3px 0 rgba(255,255,255,.15);
+  }
+  .edition-btn:active {
+    box-shadow:
+      inset 0 0 0 100px rgba(255,255,255,.2),
+      inset 0 3px 0 rgba(0,0,0,.15);
+  }
+  .edition-btn.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+  .edition-btn.active:hover {
+    background: var(--color-primary-lt);
+  }
+  .edition-btn.inactive {
+    background: var(--color-tundora);
+    color: var(--color-dusty);
+  }
+  .edition-btn.inactive:hover {
+    background: var(--color-scorpion);
+    color: var(--color-white);
+  }
+
+  /* ── Port info ── */
+  .port-info {
+    font-family: var(--font-mc-five);
+    font-size: 14px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    min-height: 22px;
+    margin-top: 4px;
+    text-align: center;
+    transition: opacity .3s;
+  }
+  .port-info span {
+    color: var(--color-tertiary);
+  }
+
+  /* ── Commands link ── */
+  .commands-link {
+    margin-top: 48px;
+  }
+  .commands-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: #86D562;
+    text-decoration: none;
+    padding: 12px 4px;
+    border-bottom: 2px solid #86D562;
+    transition: color .15s, border-color .15s;
+  }
+  .commands-link a:hover {
+    color: #9de87a;
+    border-color: #9de87a;
+  }
+  .commands-link .arrow {
+    display: inline-flex;
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+  .commands-link a:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* ── Rules section ── */
+  .rules-section {
+    margin-top: 56px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .rules-title {
+    font-family: var(--font-mc-ten);
+    font-size: 22px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .rules-list {
+    list-style: none;
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 16px 24px;
+  }
+  .rules-list li {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-hint);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .rules-list li:last-child {
+    border-bottom: none;
+  }
+  .rule-num {
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    flex-shrink: 0;
+    min-width: 20px;
+  }
+  .rules-burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 20px;
+    background: rgba(60,133,39,.1);
+    border: 2px solid rgba(60,133,39,.25);
+  }
+  .rules-burger img {
+    width: 28px;
+    height: 28px;
+    image-rendering: pixelated;
+  }
+  .rules-burger span {
+    font-family: var(--font-mc-seven);
+    font-size: 15px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.5);
+  }
+
+  /* ═══ FOOTER ═══ */
+  .site-footer {
+    text-align: center;
+    padding: 40px 24px 32px;
+    border-top: 3px solid var(--color-tundora);
+  }
+
+  /* ── Creeper artwork ── */
+  .creeper-art {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .creeper-art img {
+    width: 64px;
+    height: auto;
+    opacity: .3;
+    filter: brightness(1.4);
+    transition: opacity .3s, transform .15s;
+    image-rendering: pixelated;
+  }
+  .creeper-art:hover img {
+    opacity: .5;
+  }
+  .creeper-art img.squish {
+    transform: scaleY(0.7) scaleX(1.15);
+    opacity: .55;
+  }
+
+  /* ── Creeper popup ── */
+  .creeper-popup {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.7);
+    background: rgba(29,30,30,.95);
+    border: 2px solid var(--color-tundora);
+    padding: 8px 18px;
+    white-space: nowrap;
+    font-family: var(--font-mc-seven);
+    font-size: 18px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 10;
+  }
+  .creeper-popup::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--color-tundora);
+  }
+  .creeper-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  .footer-text {
+    font-family: var(--font-mc-seven);
+    font-size: 14px;
+    color: var(--color-scorpion);
+    letter-spacing: 1px;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 640px) {
+    .site-header { min-height: 200px; background-size: auto 200px; }
+    .header-logo { width: 320px; }
+    .main-content { padding: 32px 16px 32px; }
+    .server-ip {
+      font-size: 16px;
+      padding: 12px 16px;
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+    .server-ip-label { font-size: 14px; }
+    .edition-toggle { flex-direction: column; gap: 8px; }
+    .edition-btn { padding: 12px 24px; font-size: 14px; }
+    .commands-link a { font-size: 13px; }
+    .rules-section { margin-top: 40px; }
+    .rules-title { font-size: 18px; }
+    .rules-list { padding: 12px 16px; }
+    .rules-burger { flex-direction: column; gap: 6px; }
+    .rules-burger span { font-size: 13px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="index.html"><img class="header-logo" src="minecraft_title.png" alt="PlayTanuki"></a>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main-content">
+
+  <!-- Server IP -->
+  <div class="server-ip-box">
+    <div class="server-ip-label">IP-адрес сервера</div>
+    <div class="server-ip" id="serverIp" onclick="copyIp()">
+      server.playtanuki.fun
+      <div class="server-ip-copied" id="copiedToast">Скопировано!</div>
+    </div>
+  </div>
+
+  <!-- Edition Toggle -->
+  <div class="edition-toggle">
+    <button class="edition-btn active" id="btnJava" onclick="switchEdition('java')">Java Edition</button>
+    <button class="edition-btn inactive" id="btnBedrock" onclick="switchEdition('bedrock')">Bedrock Edition</button>
+  </div>
+  <div class="port-info" id="portInfo">&nbsp;</div>
+
+  <!-- Commands Wiki Link -->
+  <div class="commands-link">
+    <a href="tanuki-commands.html">
+      <span>TanukiEssentials — Команды</span>
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <!-- Server Rules -->
+  <div class="rules-section">
+    <div class="rules-title">Правила Сервера</div>
+    <ol class="rules-list">
+      <li><span class="rule-num">1.</span> Уважайте других игроков</li>
+      <li><span class="rule-num">2.</span> Не гриферите и не воруйте</li>
+      <li><span class="rule-num">3.</span> Не используйте читы и эксплойты</li>
+      <li><span class="rule-num">4.</span> Не спамьте в чате</li>
+      <li><span class="rule-num">5.</span> Слушайте администрацию</li>
+    </ol>
+    <div class="rules-burger">
+      <img src="Burger.png" alt="Burger">
+      <span>Кто себя хорошо ведет, получит Бургер!</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="creeper-art" id="creeperArt" onclick="creeperClick()">
+    <img src="Creeper-Artwork.png" alt="Creeper">
+    <div class="creeper-popup" id="creeperPopup"></div>
+  </div>
+  <div class="footer-text">Создано Fekyat/Фекиат</div>
+</footer>
+
+<script>
+  // ── Edition toggle ──
+  function switchEdition(edition) {
+    const btnJava = document.getElementById('btnJava');
+    const btnBedrock = document.getElementById('btnBedrock');
+    const portInfo = document.getElementById('portInfo');
+
+    if (edition === 'java') {
+      btnJava.className = 'edition-btn active';
+      btnBedrock.className = 'edition-btn inactive';
+      portInfo.innerHTML = '&nbsp;';
+    } else {
+      btnBedrock.className = 'edition-btn active';
+      btnJava.className = 'edition-btn inactive';
+      portInfo.innerHTML = 'Port: <span>25605</span>';
+    }
+  }
+
+  // ── Copy IP ──
+  function copyIp() {
+    const ip = 'server.playtanuki.fun';
+    navigator.clipboard.writeText(ip).then(function() {
+      const toast = document.getElementById('copiedToast');
+      toast.classList.add('show');
+      setTimeout(function() { toast.classList.remove('show'); }, 1500);
+    }).catch(function() {
+      // fallback: text is already user-selectable
+    });
+  }
+
+  // ── Creeper click popup ──
+  var creeperSounds = ['Hisss...', 'Ngh!~', '\u0428\u0448\u0448\u0448...', '\u041d\u044f!'];
+  var creeperTimeout = null;
+
+  function creeperClick() {
+    var popup = document.getElementById('creeperPopup');
+    var img = document.querySelector('.creeper-art img');
+    var sound = creeperSounds[Math.floor(Math.random() * creeperSounds.length)];
+
+    // Reset if already showing
+    if (creeperTimeout) {
+      clearTimeout(creeperTimeout);
+      popup.classList.remove('show');
+    }
+
+    popup.textContent = sound;
+
+    // Squish the creeper
+    img.classList.add('squish');
+    setTimeout(function() { img.classList.remove('squish'); }, 200);
+
+    // Show popup
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        popup.classList.add('show');
+        creeperTimeout = setTimeout(function() {
+          popup.classList.remove('show');
+          creeperTimeout = null;
+        }, 2000);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
