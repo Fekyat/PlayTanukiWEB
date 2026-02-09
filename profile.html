@@ -428,6 +428,193 @@
     color: var(--color-scorpion);
   }
 
+  /* ── Cape section ── */
+  .cape-section-wrap {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 14px;
+  }
+  .cape-preview-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cape-viewer-wrap {
+    width: 160px;
+    height: 220px;
+    border: 2px solid var(--color-tundora);
+    background: rgba(0,0,0,.3);
+    position: relative;
+  }
+  .cape-viewer-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .cape-no-preview {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+  .cape-controls {
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+  }
+  .cape-controls .mc-btn {
+    font-size: 12px;
+    padding: 7px 10px;
+    flex: 1;
+  }
+
+  .cape-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cape-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: rgba(245,158,11,.08);
+    border: 2px solid rgba(245,158,11,.3);
+    padding: 8px 12px;
+  }
+  .cape-warning svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: #f59e0b;
+    margin-top: 1px;
+  }
+  .cape-warning-text {
+    font-family: var(--font-mc-seven);
+    font-size: 11px;
+    color: #f5d38a;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    line-height: 1.5;
+  }
+  .cape-warning-text a { color: #a0e080; }
+
+  .cape-gallery-label {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  /* Scrollable cape grid */
+  .cape-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-height: 110px;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-tundora) transparent;
+  }
+  .cape-gallery::-webkit-scrollbar { width: 4px; }
+  .cape-gallery::-webkit-scrollbar-track { background: transparent; }
+  .cape-gallery::-webkit-scrollbar-thumb { background: var(--color-tundora); border-radius: 2px; }
+
+  .cape-gallery-item {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border: 2px solid var(--color-tundora);
+    background: rgba(0,0,0,.3);
+    cursor: pointer;
+    transition: border-color .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+  }
+  .cape-gallery-item:hover {
+    border-color: var(--color-scorpion);
+  }
+  .cape-gallery-item.selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 6px rgba(60,133,39,.4);
+  }
+  .cape-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+
+  /* Bedrock-style floating tooltip */
+  .cape-tooltip {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    font-family: var(--font-mc-seven);
+    font-size: 11px;
+    color: var(--color-white);
+    background: rgba(0, 0, 0, .7);
+    border: none;
+    padding: 5px 10px;
+    white-space: nowrap;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    opacity: 0;
+    transition: opacity .12s;
+    clip-path: polygon(
+      0 var(--bdr), var(--bdr) var(--bdr), var(--bdr) 0,
+      calc(100% - var(--bdr)) 0, calc(100% - var(--bdr)) var(--bdr), 100% var(--bdr),
+      100% calc(100% - var(--bdr)), calc(100% - var(--bdr)) calc(100% - var(--bdr)),
+      calc(100% - var(--bdr)) 100%, var(--bdr) 100%,
+      var(--bdr) calc(100% - var(--bdr)), 0 calc(100% - var(--bdr))
+    );
+  }
+  .cape-tooltip.visible {
+    opacity: 1;
+  }
+
+  .cape-or-divider {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .cape-upload-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .cape-upload-row .mc-btn { font-size: 12px; padding: 7px 14px; white-space: nowrap; }
+  .cape-upload-hint {
+    font-family: var(--font-mc-seven);
+    font-size: 11px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+
+  @media (max-width: 700px) {
+    .cape-section-wrap {
+      grid-template-columns: 1fr;
+    }
+    .cape-preview-col {
+      justify-self: center;
+    }
+    .cape-gallery {
+      max-height: 90px;
+    }
+  }
+
   /* ── Danger zone ── */
   .danger-zone {
     border-color: #5a2020;
@@ -441,7 +628,17 @@
     font-size: 14px;
     color: var(--color-dusty);
     text-shadow: 2px 2px 0 rgba(0,0,0,.6);
-    margin-bottom: 12px;
+    margin-bottom: 6px;
+  }
+  .danger-list {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin: 0 0 0 20px;
+    padding: 0;
+    list-style: disc;
+    line-height: 1.7;
   }
 
   /* ═══ FOOTER ═══ */
@@ -572,13 +769,76 @@
         <button class="mc-btn green full" onclick="changePassword()" style="margin-top:8px;">Сменить</button>
       </div>
 
-      <!-- Full width: Danger + Logout row -->
-      <div class="profile-section danger-zone bento-wide" style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-        <div style="flex:1; min-width:200px;">
-          <div class="danger-text" style="margin-bottom:0;">Удаление аккаунта необратимо.</div>
-          <div class="form-message" id="deleteMessage"></div>
+      <!-- Full width: Cape section -->
+      <div class="profile-section bento-wide" id="capeSection">
+        <div class="section-title">Плащ</div>
+        <div class="cape-section-wrap">
+
+          <!-- Left: compact 3D preview -->
+          <div class="cape-preview-col">
+            <div class="cape-viewer-wrap" id="capeViewer">
+              <div class="cape-no-preview" id="capeNoPreview">Нет плаща</div>
+            </div>
+            <div class="cape-controls">
+              <button class="mc-btn green" id="capeSaveBtn" onclick="saveCape()" style="display:none;">Сохранить</button>
+              <button class="mc-btn red" id="capeRemoveBtn" onclick="removeCape()" style="display:none;">Снять</button>
+            </div>
+            <div class="form-message" id="capeMessage" style="margin-top:4px; font-size:11px;"></div>
+          </div>
+
+          <!-- Right: gallery + upload -->
+          <div class="cape-right-col">
+
+            <div class="cape-warning">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+              <div class="cape-warning-text">
+                Плащи видны только с модом <b>TanukiHelper</b> для Fabric (Java Edition).<br>
+                Скачай мод и положи в папку <code style="background:rgba(0,0,0,.3); padding:1px 4px;">.minecraft/mods</code>
+                <br>
+                <a href="https://github.com/PlayTanuki/TanukiHelper/releases/download/v1.0.0/tanukihelper.jar" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:4px; margin-top:4px;">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2.75 14A1.75 1.75 0 011 12.25v-2.5a.75.75 0 011.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 00.25-.25v-2.5a.75.75 0 011.5 0v2.5A1.75 1.75 0 0113.25 14H2.75z"/><path d="M7.25 7.689V2a.75.75 0 011.5 0v5.689l1.97-1.969a.749.749 0 111.06 1.06l-3.25 3.25a.749.749 0 01-1.06 0L4.22 6.78a.749.749 0 111.06-1.06l1.97 1.969z"/></svg>
+                  Скачать TanukiHelper
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <div class="cape-gallery-label">Выбери плащ</div>
+              <div class="cape-gallery" id="capeGallery"></div>
+            </div>
+
+            <div class="cape-or-divider">— ИЛИ —</div>
+
+            <div>
+              <div class="cape-gallery-label">Свой плащ</div>
+              <div class="cape-upload-row">
+                <input type="file" id="capeFile" style="display:none;" accept=".png" onchange="previewCustomCape()">
+                <button class="mc-btn gray" onclick="document.getElementById('capeFile').click()">Загрузить PNG</button>
+                <span class="cape-upload-hint">64x32 — стандартный формат</span>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <div style="display:flex; gap:8px; flex-shrink:0;">
+      </div>
+
+      <!-- Full width: Danger zone -->
+      <div class="profile-section danger-zone bento-wide">
+        <div class="section-title">Опасная зона</div>
+        <div class="danger-text">
+          Удаление аккаунта — <b>необратимое</b> действие. Будут удалены:
+        </div>
+        <ul class="danger-list">
+          <li>Все данные аккаунта (никнейм, контакт, пароль)</li>
+          <li>Загруженный скин</li>
+          <li>Загруженный плащ</li>
+          <li>Доступ к серверу и все данные на нём</li>
+        </ul>
+        <div class="danger-text" style="margin-top:8px; margin-bottom:14px; color:var(--color-scorpion); font-size:13px;">
+          Восстановить аккаунт после удаления невозможно. Тебе придётся регистрироваться заново и ждать повторного одобрения.
+        </div>
+        <div class="form-message" id="deleteMessage"></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="mc-btn red" onclick="deleteAccount()">Удалить аккаунт</button>
           <button class="mc-btn gray" onclick="logout()">Выйти</button>
         </div>
@@ -678,6 +938,8 @@
 
     loadSkin();
     loadAnnouncements();
+    buildCapeGallery();
+    loadCurrentCape();
   }
 
   // ── Announcements (paginated) ──
@@ -948,8 +1210,9 @@
       msg.className = 'form-message error';
       msg.textContent = 'Ошибка: ' + error.message;
     } else {
-      // Also try to delete skin
+      // Also try to delete skin and cape
       await db.storage.from('skins').remove([currentPlayer.username + '.png']);
+      await db.storage.from('capes').remove([currentPlayer.username + '.png']);
       logout();
     }
   }
@@ -983,6 +1246,329 @@
       }
     }
   })();
+
+  // ── Cape System ──
+  var capeViewerInstance = null;
+  var selectedCapeBlob = null; // File or Blob to upload
+  var selectedCapeUrl = null;  // URL for preview
+  var currentCapeLoaded = false; // has saved cape
+
+  // Official capes from Supabase Storage /capes/ bucket
+  var CAPE_BASE = SUPABASE_URL + '/storage/v1/object/public/capes/';
+  var OFFICIAL_CAPES = [
+    { name: 'Ванилла', file: 'VanillaCape.png' },
+    { name: 'Вишнёвый цвет', file: 'CherryBlossom.png' },
+    { name: 'Мигратор', file: 'Migrator.png' },
+    { name: 'Глазоцвет', file: 'Eyeblossom.png' },
+    { name: 'Нюхач', file: 'Sniffer.png' },
+    { name: 'Улитка', file: 'Snail.png' },
+    { name: 'Лягушка', file: 'Frog.png' },
+    { name: 'Медный', file: 'CopperCape.png' },
+    { name: 'Тоска', file: 'YearnCape.png' },
+    { name: 'Угроза', file: 'MenaceCape.png' },
+    { name: 'Домашний', file: 'HomeCape.png' },
+    { name: 'Пан', file: 'Pancape.png' },
+    { name: 'Прогресс Прайд', file: 'ProgressPrideCape.png' },
+    { name: 'Зомби-лошадь', file: 'ZombieHorse.png' },
+    { name: '15 лет', file: '15YearCape.png' },
+    { name: 'Основатель', file: 'FoundersCape.png' },
+    { name: 'MC Чемпионат', file: 'MCChampionship.png' },
+    { name: 'MC Опыт', file: 'MinecraftExperienceVillagerRescue.png' },
+    { name: 'Mojang Studios', file: 'MojangStudios.png' },
+    { name: 'Новый Mojang', file: 'NewMojang.png' },
+    { name: 'Старый Mojang', file: 'OldMojang.png' },
+    { name: 'Minecon 2011', file: '2011.png' },
+    { name: 'Minecon 2012', file: '2012.png' },
+    { name: 'Minecon 2013', file: '2013.png' },
+    { name: 'Minecon 2015', file: '2015.png' },
+    { name: 'Minecon 2016', file: '2016.png' },
+    { name: 'Realms', file: 'Realms.png' },
+    { name: 'Scrolls', file: 'Scrolls.png' },
+    { name: 'Кобальт', file: 'Cobalt.png' },
+    { name: '1 Миллион', file: '1Mill.png' },
+    { name: 'Переводчик КН', file: 'Translator_Chinese.png' },
+    { name: 'Переводчик', file: 'Translator_Crowdin.png' },
+    { name: 'Переводчик ЯП', file: 'Translator_Japan.png' },
+    { name: 'Баг-трекер', file: 'BugTracker.png' },
+    { name: 'Черепаха', file: 'Turtle.png' },
+    { name: 'Призмарин', file: 'Prismarine.png' },
+    { name: 'Oxeye', file: 'Oxeye.png' },
+    { name: 'Чертёж', file: 'Blueprint.png' },
+    { name: 'Бекон', file: 'Bacon.png' },
+    { name: 'Валентинка', file: 'Valentine.png' },
+    { name: 'Новый год', file: 'NewYears.png' },
+    { name: 'Рождество', file: 'Xmas.png' },
+    { name: 'Xbox День рождения', file: 'XboxBirthday.png' },
+    { name: 'TikTok', file: 'TikTokCape.png' },
+    { name: 'Twitch', file: 'TwitchCape.png' },
+    { name: 'dannyBstyle', file: 'dannyBstyle.png' },
+    { name: 'JulianClark', file: 'JulianClark.png' },
+    { name: 'MrMessiah', file: 'MrMessiah.png' },
+    { name: 'Gr8 Escape', file: 'Gr8_Escape.png' },
+  ];
+
+  // Floating Bedrock-style tooltip
+  var capeTooltip = document.createElement('div');
+  capeTooltip.className = 'cape-tooltip';
+  document.body.appendChild(capeTooltip);
+
+  function showCapeTooltip(e, name) {
+    capeTooltip.textContent = name;
+    capeTooltip.classList.add('visible');
+    moveCapeTooltip(e);
+  }
+  function moveCapeTooltip(e) {
+    var x = e.clientX;
+    var y = e.clientY;
+    var tw = capeTooltip.offsetWidth;
+    // Position above cursor, centered
+    var left = x - tw / 2;
+    var top = y - 34;
+    // Keep on screen
+    if (left < 4) left = 4;
+    if (left + tw > window.innerWidth - 4) left = window.innerWidth - tw - 4;
+    if (top < 4) top = y + 20;
+    capeTooltip.style.left = left + 'px';
+    capeTooltip.style.top = top + 'px';
+  }
+  function hideCapeTooltip() {
+    capeTooltip.classList.remove('visible');
+  }
+
+  function buildCapeGallery() {
+    var gallery = document.getElementById('capeGallery');
+    var html = '';
+    OFFICIAL_CAPES.forEach(function(cape, i) {
+      var url = CAPE_BASE + cape.file;
+      html += '<div class="cape-gallery-item" onclick="selectOfficialCape(' + i + ')" id="capeItem' + i + '" data-name="' + escapeHtml(cape.name) + '">';
+      html += '  <img src="' + url + '" alt="' + escapeHtml(cape.name) + '" crossorigin="anonymous" draggable="false">';
+      html += '</div>';
+    });
+    gallery.innerHTML = html;
+
+    // Attach tooltip events
+    var items = gallery.querySelectorAll('.cape-gallery-item');
+    items.forEach(function(el) {
+      el.addEventListener('mouseenter', function(e) {
+        showCapeTooltip(e, el.getAttribute('data-name'));
+      });
+      el.addEventListener('mousemove', moveCapeTooltip);
+      el.addEventListener('mouseleave', hideCapeTooltip);
+    });
+  }
+
+  function selectOfficialCape(index) {
+    // Deselect all
+    var items = document.querySelectorAll('.cape-gallery-item');
+    items.forEach(function(el) { el.classList.remove('selected'); });
+
+    // Select this one
+    document.getElementById('capeItem' + index).classList.add('selected');
+
+    var cape = OFFICIAL_CAPES[index];
+    var url = CAPE_BASE + cape.file;
+    selectedCapeUrl = url;
+    selectedCapeBlob = null; // will fetch on save
+
+    previewCape(url);
+    document.getElementById('capeSaveBtn').style.display = '';
+  }
+
+  function previewCustomCape() {
+    var fileInput = document.getElementById('capeFile');
+    var file = fileInput.files[0];
+    if (!file) return;
+
+    var msg = document.getElementById('capeMessage');
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (file.type !== 'image/png') {
+      msg.className = 'form-message error';
+      msg.textContent = 'Только PNG!';
+      fileInput.value = '';
+      return;
+    }
+
+    if (file.size > 256000) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Макс. 256 КБ!';
+      fileInput.value = '';
+      return;
+    }
+
+    // Deselect gallery
+    var items = document.querySelectorAll('.cape-gallery-item');
+    items.forEach(function(el) { el.classList.remove('selected'); });
+
+    selectedCapeBlob = file;
+    selectedCapeUrl = URL.createObjectURL(file);
+
+    previewCape(selectedCapeUrl);
+    document.getElementById('capeSaveBtn').style.display = '';
+  }
+
+  function previewCape(url) {
+    var container = document.getElementById('capeViewer');
+    var noPreview = document.getElementById('capeNoPreview');
+    noPreview.style.display = 'none';
+
+    if (!capeViewerInstance) {
+      initCapeViewer();
+    }
+
+    capeViewerInstance.loadCape(url, { backEquipment: 'cape' });
+  }
+
+  function initCapeViewer() {
+    var container = document.getElementById('capeViewer');
+    var oldCanvas = container.querySelector('canvas');
+    if (oldCanvas) oldCanvas.remove();
+
+    var skinUrl = null;
+    if (currentPlayer) {
+      skinUrl = SUPABASE_URL + '/storage/v1/object/public/skins/' + currentPlayer.username + '.png?t=' + Date.now();
+    }
+
+    capeViewerInstance = new skinview3d.SkinViewer({
+      canvas: document.createElement('canvas'),
+      width: 160,
+      height: 220,
+      skin: skinUrl || undefined,
+      model: currentArmType === 'slim' ? 'slim' : 'default'
+    });
+
+    capeViewerInstance.autoRotate = true;
+    capeViewerInstance.autoRotateSpeed = 0.5;
+    capeViewerInstance.zoom = 0.9;
+    capeViewerInstance.fov = 50;
+    capeViewerInstance.animation = new skinview3d.IdleAnimation();
+
+    // Show from behind to see the cape
+    capeViewerInstance.camera.rotation.y = Math.PI;
+
+    container.appendChild(capeViewerInstance.canvas);
+  }
+
+  function loadCurrentCape() {
+    var url = SUPABASE_URL + '/storage/v1/object/public/capes/' + currentPlayer.username + '.png?t=' + Date.now();
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+      currentCapeLoaded = true;
+      previewCape(url);
+      document.getElementById('capeRemoveBtn').style.display = '';
+      document.getElementById('capeNoPreview').style.display = 'none';
+    };
+    img.onerror = function() {
+      currentCapeLoaded = false;
+      document.getElementById('capeNoPreview').style.display = '';
+      document.getElementById('capeRemoveBtn').style.display = 'none';
+      // Hide the 3D viewer when no cape
+      if (capeViewerInstance) {
+        capeViewerInstance.dispose();
+        capeViewerInstance = null;
+        var c = document.getElementById('capeViewer').querySelector('canvas');
+        if (c) c.remove();
+      }
+    };
+    img.src = url;
+  }
+
+  async function saveCape() {
+    var msg = document.getElementById('capeMessage');
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    var blob = selectedCapeBlob;
+
+    // If selected from gallery, fetch the image as blob
+    if (!blob && selectedCapeUrl) {
+      try {
+        var resp = await fetch(selectedCapeUrl);
+        blob = await resp.blob();
+      } catch(e) {
+        // CORS might block wiki images — draw to canvas instead
+        blob = await fetchCapeViaCanvas(selectedCapeUrl);
+      }
+    }
+
+    if (!blob) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Выбери плащ!';
+      return;
+    }
+
+    var filename = currentPlayer.username + '.png';
+
+    var { error } = await db.storage
+      .from('capes')
+      .upload(filename, blob, { upsert: true, contentType: 'image/png' });
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      msg.className = 'form-message success';
+      msg.textContent = 'Плащ сохранён!';
+      currentCapeLoaded = true;
+      document.getElementById('capeRemoveBtn').style.display = '';
+      document.getElementById('capeSaveBtn').style.display = 'none';
+      selectedCapeBlob = null;
+      selectedCapeUrl = null;
+      // Deselect gallery
+      var items = document.querySelectorAll('.cape-gallery-item');
+      items.forEach(function(el) { el.classList.remove('selected'); });
+    }
+  }
+
+  // Fallback: draw image to canvas to get blob (avoids CORS)
+  function fetchCapeViaCanvas(url) {
+    return new Promise(function(resolve) {
+      var img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(function(b) {
+          resolve(b);
+        }, 'image/png');
+      };
+      img.onerror = function() { resolve(null); };
+      img.src = url;
+    });
+  }
+
+  async function removeCape() {
+    var msg = document.getElementById('capeMessage');
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (!confirm('Снять плащ?')) return;
+
+    var filename = currentPlayer.username + '.png';
+    var { error } = await db.storage.from('capes').remove([filename]);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      msg.className = 'form-message success';
+      msg.textContent = 'Плащ снят.';
+      currentCapeLoaded = false;
+      document.getElementById('capeRemoveBtn').style.display = 'none';
+      document.getElementById('capeNoPreview').style.display = '';
+      if (capeViewerInstance) {
+        capeViewerInstance.dispose();
+        capeViewerInstance = null;
+        var c = document.getElementById('capeViewer').querySelector('canvas');
+        if (c) c.remove();
+      }
+    }
+  }
 
   // Enter to login
   document.addEventListener('keydown', function(e) {
