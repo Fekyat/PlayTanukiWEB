@@ -20,7 +20,9 @@
       "WebFetch(domain:bluemap.bluecolored.de)",
       "WebFetch(domain:skinsrestorer.net)",
       "WebFetch(domain:minecraft.wiki)",
-      "WebFetch(domain:bdwrvonkykccirctxrcc.supabase.co)"
+      "WebFetch(domain:bdwrvonkykccirctxrcc.supabase.co)",
+      "Bash(gh api:*)",
+      "Bash(gh run list:*)"
     ]
   }
 }
