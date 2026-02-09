@@ -10,7 +10,17 @@
       "Bash(dir:*)",
       "Bash(gh repo view:*)",
       "Bash(certutil:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:mclo.gs)",
+      "WebFetch(domain:bluemap.bluecolored.de)",
+      "WebFetch(domain:skinsrestorer.net)",
+      "WebFetch(domain:minecraft.wiki)",
+      "WebFetch(domain:bdwrvonkykccirctxrcc.supabase.co)"
     ]
   }
 }

@@ -237,44 +237,48 @@
     grid-row: 1 / 3;
     padding: 0;
     overflow: hidden;
-    min-height: 500px;
-    position: relative;
   }
-  .tile-map .tile-title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    padding: 12px 16px 8px;
-    margin: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,.7) 0%, rgba(0,0,0,.3) 70%, transparent 100%);
-    border-bottom: none;
-  }
-  .tile-map iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-  .map-placeholder {
+  .map-link {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
-    gap: 12px;
+    gap: 10px;
+    text-decoration: none;
+    transition: background .2s;
+    padding: 40px;
+  }
+  .map-link:hover {
+    background: rgba(60,133,39,.08);
+  }
+  .map-link svg {
+    width: 64px;
+    height: 64px;
     color: var(--color-scorpion);
+    transition: color .2s;
+  }
+  .map-link:hover svg { color: var(--color-tertiary); }
+  .map-link-title {
+    font-family: var(--font-mc-ten);
+    font-size: 20px;
+    color: var(--color-tertiary);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .map-link-sub {
     font-family: var(--font-mc-seven);
     font-size: 14px;
+    color: var(--color-hint);
     text-shadow: 2px 2px 0 rgba(0,0,0,.6);
-    padding: 40px;
-    text-align: center;
   }
-  .map-placeholder svg {
-    width: 48px;
-    height: 48px;
-    opacity: .3;
+  .map-link-hint {
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
   }
 
   /* ── Chat tile (right top) ── */
@@ -515,9 +519,14 @@
 
       <!-- MAP — big left tile spanning 2 rows -->
       <div class="bento-tile tile-map">
-        <div class="tile-title">Карта мира</div>
-        <!-- Replace src with your BlueMap URL when ready -->
-        <iframe src="http://server.playtanuki.fun:25962/" allowfullscreen></iframe>
+        <a class="map-link" href="http://server.playtanuki.fun:25962/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+          </svg>
+          <span class="map-link-title">Открыть карту</span>
+          <span class="map-link-sub">BlueMap — 3D карта мира</span>
+          <span class="map-link-hint">Откроется в новой вкладке</span>
+        </a>
       </div>
 
       <!-- CHAT — right top -->
