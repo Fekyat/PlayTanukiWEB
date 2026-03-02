@@ -615,6 +615,200 @@
     }
   }
 
+  /* ── Countdown Timer ── */
+  .countdown-section {
+    background: linear-gradient(135deg, rgba(60,133,39,.12) 0%, rgba(0,0,0,.35) 100%);
+    border: 2px solid rgba(60,133,39,.35);
+    text-align: center;
+    padding: 20px 16px;
+  }
+  .countdown-label {
+    font-family: var(--font-mc-five);
+    font-size: 13px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .countdown-digits {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .countdown-unit {
+    background: rgba(0,0,0,.45);
+    border: 2px solid var(--color-tundora);
+    padding: 10px 14px;
+    min-width: 72px;
+    text-align: center;
+  }
+  .countdown-number {
+    font-family: var(--font-mc-ten);
+    font-size: 28px;
+    color: var(--color-white);
+    text-shadow: 3px 3px 0 rgba(0,0,0,.6);
+    line-height: 1;
+  }
+  .countdown-number-label {
+    font-family: var(--font-mc-five);
+    font-size: 9px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .countdown-expired {
+    font-family: var(--font-mc-five);
+    font-size: 14px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    letter-spacing: 1px;
+  }
+
+  /* ── Poll section ── */
+  .poll-section {
+    border-color: rgba(90,78,200,.3);
+    background: linear-gradient(135deg, rgba(90,78,200,.08) 0%, rgba(0,0,0,.35) 100%);
+  }
+  .poll-section .section-title {
+    color: #b8a0ff;
+    border-bottom-color: rgba(90,78,200,.3);
+  }
+  .poll-question {
+    font-family: var(--font-mc-five);
+    font-size: 13px;
+    color: var(--color-white);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .poll-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .poll-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,.3);
+    border: 2px solid var(--color-tundora);
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .poll-option:hover {
+    border-color: var(--color-scorpion);
+    background: rgba(0,0,0,.4);
+  }
+  .poll-option.selected {
+    border-color: #7c5cbf;
+    background: rgba(90,78,200,.15);
+  }
+  .poll-option.voted {
+    cursor: default;
+    pointer-events: none;
+  }
+  .poll-radio {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--color-scorpion);
+    background: rgba(0,0,0,.4);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .2s;
+  }
+  .poll-option.selected .poll-radio,
+  .poll-option.voted.my-vote .poll-radio {
+    border-color: #b8a0ff;
+  }
+  .poll-radio-dot {
+    width: 8px;
+    height: 8px;
+    background: #b8a0ff;
+    display: none;
+  }
+  .poll-option.selected .poll-radio-dot,
+  .poll-option.voted.my-vote .poll-radio-dot {
+    display: block;
+  }
+  .poll-option-text {
+    font-family: var(--font-mc-seven);
+    font-size: 13px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    flex: 1;
+    z-index: 1;
+  }
+  .poll-option-pct {
+    font-family: var(--font-mc-five);
+    font-size: 11px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    z-index: 1;
+    min-width: 36px;
+    text-align: right;
+  }
+  .poll-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(90,78,200,.15);
+    transition: width .5s ease;
+    z-index: 0;
+  }
+  .poll-voted-label {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+  .poll-total {
+    font-family: var(--font-mc-five);
+    font-size: 10px;
+    color: var(--color-scorpion);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    text-align: right;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* ── Rich text in announcements ── */
+  .announce-text b, .announce-text strong {
+    color: var(--color-white);
+    font-weight: bold;
+  }
+  .announce-text i, .announce-text em {
+    font-style: italic;
+    color: #c8b896;
+  }
+  .announce-text u {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .announce-text s {
+    text-decoration: line-through;
+    color: var(--color-scorpion);
+  }
+  .announce-text code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: rgba(0,0,0,.4);
+    padding: 1px 5px;
+    border: 1px solid var(--color-tundora);
+  }
+
   /* ── Danger zone ── */
   .danger-zone {
     border-color: #5a2020;
@@ -707,10 +901,22 @@
 
     <div class="bento-grid">
 
+      <!-- Countdown Timer — full width -->
+      <div class="profile-section countdown-section bento-wide" id="countdownSection" style="display:none;">
+        <div class="countdown-label" id="countdownLabel"></div>
+        <div class="countdown-digits" id="countdownDigits"></div>
+      </div>
+
       <!-- Announcements — full width -->
       <div class="profile-section bento-wide" id="announceSection" style="display:none;">
         <div class="section-title">Объявления</div>
         <div id="announceList"></div>
+      </div>
+
+      <!-- Voting Poll — full width -->
+      <div class="profile-section poll-section bento-wide" id="pollSection" style="display:none;">
+        <div class="section-title">Голосование</div>
+        <div id="pollContent"></div>
       </div>
 
       <!-- Left: Skin (spans all rows) -->
@@ -938,6 +1144,8 @@
 
     loadSkin();
     loadAnnouncements();
+    loadPoll();
+    loadCountdown();
     buildCapeGallery();
     loadCurrentCape();
   }
@@ -962,6 +1170,21 @@
     renderAnnouncePage();
   }
 
+  function renderRichText(text) {
+    var s = escapeHtml(text);
+    // **bold**
+    s = s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    // *italic*
+    s = s.replace(/\*(.+?)\*/g, '<i>$1</i>');
+    // __underline__
+    s = s.replace(/__(.+?)__/g, '<u>$1</u>');
+    // ~~strikethrough~~
+    s = s.replace(/~~(.+?)~~/g, '<s>$1</s>');
+    // `code`
+    s = s.replace(/`(.+?)`/g, '<code>$1</code>');
+    return s;
+  }
+
   function renderAnnouncePage() {
     var list = document.getElementById('announceList');
     var start = announcePage * ANNOUNCE_PER_PAGE;
@@ -972,7 +1195,7 @@
     page.forEach(function(a) {
       var date = new Date(a.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
       html += '<div class="announce-card">';
-      html += '  <div class="announce-text">' + escapeHtml(a.message) + '</div>';
+      html += '  <div class="announce-text">' + renderRichText(a.message) + '</div>';
       html += '  <div class="announce-date">' + date + '</div>';
       html += '</div>';
     });
@@ -1246,6 +1469,173 @@
       }
     }
   })();
+
+  // ── Countdown Timer ──
+  var countdownInterval = null;
+
+  async function loadCountdown() {
+    var { data } = await db.from('countdown').select('*').eq('active', true).order('created_at', { ascending: false }).limit(1);
+    var section = document.getElementById('countdownSection');
+
+    if (!data || data.length === 0) {
+      section.style.display = 'none';
+      if (countdownInterval) clearInterval(countdownInterval);
+      return;
+    }
+
+    var timer = data[0];
+    var target = new Date(timer.target_date).getTime();
+
+    section.style.display = '';
+    document.getElementById('countdownLabel').textContent = timer.label || 'Обратный отсчёт';
+
+    function updateCountdown() {
+      var now = Date.now();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('countdownDigits').innerHTML = '<div class="countdown-expired">Время вышло!</div>';
+        if (countdownInterval) clearInterval(countdownInterval);
+        return;
+      }
+
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var mins = Math.floor((diff % 3600000) / 60000);
+      var secs = Math.floor((diff % 60000) / 1000);
+
+      var html = '';
+      if (days > 0) {
+        html += '<div class="countdown-unit"><div class="countdown-number">' + days + '</div><div class="countdown-number-label">Дней</div></div>';
+      }
+      html += '<div class="countdown-unit"><div class="countdown-number">' + String(hours).padStart(2, '0') + '</div><div class="countdown-number-label">Часов</div></div>';
+      html += '<div class="countdown-unit"><div class="countdown-number">' + String(mins).padStart(2, '0') + '</div><div class="countdown-number-label">Минут</div></div>';
+      html += '<div class="countdown-unit"><div class="countdown-number">' + String(secs).padStart(2, '0') + '</div><div class="countdown-number-label">Секунд</div></div>';
+      document.getElementById('countdownDigits').innerHTML = html;
+    }
+
+    updateCountdown();
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(updateCountdown, 1000);
+  }
+
+  // ── Voting Poll ──
+  var currentPoll = null;
+  var myVote = null;
+  var selectedPollOption = -1;
+
+  async function loadPoll() {
+    var section = document.getElementById('pollSection');
+    var content = document.getElementById('pollContent');
+
+    // Get active poll
+    var { data: polls } = await db.from('polls').select('*').eq('active', true).order('created_at', { ascending: false }).limit(1);
+
+    if (!polls || polls.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    currentPoll = polls[0];
+    section.style.display = '';
+
+    // Check if already voted
+    var { data: votes } = await db.from('poll_votes').select('option_index').eq('poll_id', currentPoll.id).eq('player_id', currentPlayer.id);
+
+    if (votes && votes.length > 0) {
+      myVote = votes[0].option_index;
+    } else {
+      myVote = null;
+    }
+
+    // Get all votes for this poll
+    var { data: allVotes } = await db.from('poll_votes').select('option_index').eq('poll_id', currentPoll.id);
+    var voteCounts = {};
+    var totalVotes = allVotes ? allVotes.length : 0;
+    if (allVotes) {
+      allVotes.forEach(function(v) {
+        voteCounts[v.option_index] = (voteCounts[v.option_index] || 0) + 1;
+      });
+    }
+
+    var options = currentPoll.options || [];
+    var html = '<div class="poll-question">' + escapeHtml(currentPoll.question) + '</div>';
+    html += '<div class="poll-options">';
+
+    options.forEach(function(opt, i) {
+      var count = voteCounts[i] || 0;
+      var pct = totalVotes > 0 ? Math.round(count / totalVotes * 100) : 0;
+      var hasVoted = myVote !== null;
+      var isMyVote = myVote === i;
+
+      if (hasVoted) {
+        html += '<div class="poll-option voted' + (isMyVote ? ' my-vote' : '') + '">';
+        html += '  <div class="poll-bar" style="width:' + pct + '%"></div>';
+        html += '  <div class="poll-radio"><div class="poll-radio-dot"></div></div>';
+        html += '  <span class="poll-option-text">' + escapeHtml(opt) + '</span>';
+        html += '  <span class="poll-option-pct">' + pct + '%</span>';
+        html += '</div>';
+      } else {
+        html += '<div class="poll-option' + (selectedPollOption === i ? ' selected' : '') + '" onclick="selectPollOption(' + i + ')">';
+        html += '  <div class="poll-radio"><div class="poll-radio-dot"></div></div>';
+        html += '  <span class="poll-option-text">' + escapeHtml(opt) + '</span>';
+        html += '</div>';
+      }
+    });
+
+    html += '</div>';
+
+    if (myVote !== null) {
+      html += '<div class="poll-voted-label">Ты уже проголосовал</div>';
+      html += '<div class="poll-total">Всего голосов: ' + totalVotes + '</div>';
+    } else {
+      html += '<button class="mc-btn green full" onclick="submitVote()" id="pollVoteBtn">Голосовать</button>';
+      html += '<div class="form-message" id="pollMessage"></div>';
+    }
+
+    content.innerHTML = html;
+  }
+
+  function selectPollOption(index) {
+    selectedPollOption = index;
+    var options = document.querySelectorAll('#pollContent .poll-option');
+    options.forEach(function(el, i) {
+      el.classList.toggle('selected', i === index);
+    });
+  }
+
+  async function submitVote() {
+    var msg = document.getElementById('pollMessage');
+    if (!msg) return;
+    msg.className = 'form-message';
+    msg.textContent = '';
+
+    if (selectedPollOption < 0) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Выбери вариант!';
+      return;
+    }
+
+    var { error } = await db.from('poll_votes').insert([{
+      poll_id: currentPoll.id,
+      player_id: currentPlayer.id,
+      option_index: selectedPollOption
+    }]);
+
+    if (error) {
+      if (error.code === '23505') {
+        msg.className = 'form-message error';
+        msg.textContent = 'Ты уже голосовал!';
+      } else {
+        msg.className = 'form-message error';
+        msg.textContent = 'Ошибка: ' + error.message;
+      }
+    } else {
+      myVote = selectedPollOption;
+      selectedPollOption = -1;
+      loadPoll();
+    }
+  }
 
   // ── Cape System ──
   var capeViewerInstance = null;

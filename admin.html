@@ -394,12 +394,124 @@
     white-space: pre-wrap;
     word-break: break-word;
   }
+  .announce-text b, .announce-text strong { color: var(--color-white); font-weight: bold; }
+  .announce-text i, .announce-text em { font-style: italic; color: #c8b896; }
+  .announce-text u { text-decoration: underline; text-underline-offset: 2px; }
+  .announce-text s { text-decoration: line-through; color: var(--color-scorpion); }
+  .announce-text code { font-family: 'Courier New', monospace; font-size: 12px; background: rgba(0,0,0,.4); padding: 1px 5px; border: 1px solid var(--color-tundora); }
   .announce-date {
     font-family: var(--font-mc-five);
     font-size: 9px;
     color: var(--color-scorpion);
     margin-top: 6px;
   }
+
+  /* ── Poll admin ── */
+  .poll-option-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .poll-option-row .form-input { flex: 1; }
+  .poll-option-row .mc-btn { flex-shrink: 0; }
+  .poll-result-bar-wrap {
+    background: rgba(0,0,0,.3);
+    border: 1px solid var(--color-tundora);
+    height: 20px;
+    position: relative;
+    margin-top: 4px;
+  }
+  .poll-result-bar {
+    height: 100%;
+    background: rgba(90,78,200,.4);
+    transition: width .3s;
+  }
+  .poll-result-bar-text {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mc-seven);
+    font-size: 11px;
+    color: var(--color-hint);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .poll-voter-list {
+    font-family: var(--font-mc-seven);
+    font-size: 11px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-top: 4px;
+    padding-left: 16px;
+  }
+  .poll-active-card {
+    background: rgba(0,0,0,.35);
+    border: 2px solid rgba(90,78,200,.3);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .poll-active-title {
+    font-family: var(--font-mc-five);
+    font-size: 13px;
+    color: #b8a0ff;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-bottom: 10px;
+  }
+
+  /* ── Countdown admin ── */
+  .countdown-form {
+    background: rgba(0,0,0,.35);
+    border: 2px solid var(--color-tundora);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .countdown-active-card {
+    background: rgba(60,133,39,.08);
+    border: 2px solid rgba(60,133,39,.25);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .countdown-active-label {
+    font-family: var(--font-mc-five);
+    font-size: 12px;
+    color: var(--color-tertiary);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+  }
+  .countdown-active-date {
+    font-family: var(--font-mc-seven);
+    font-size: 12px;
+    color: var(--color-dusty);
+    text-shadow: 2px 2px 0 rgba(0,0,0,.6);
+    margin-top: 4px;
+  }
+
+  /* ── Rich text toolbar ── */
+  .rich-toolbar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .rich-btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-dusty);
+    background: rgba(0,0,0,.3);
+    border: 2px solid var(--color-tundora);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+    line-height: 1;
+  }
+  .rich-btn:hover {
+    border-color: var(--color-scorpion);
+    color: var(--color-white);
+  }
+  .rich-btn b { font-weight: bold; }
+  .rich-btn i { font-style: italic; }
+  .rich-btn u { text-decoration: underline; }
+  .rich-btn s { text-decoration: line-through; }
 
   .empty-state {
     font-family: var(--font-mc-seven);
@@ -478,6 +590,8 @@
       <button class="tab-btn" onclick="switchTab('banned')">Забанены</button>
       <button class="tab-btn" onclick="switchTab('all')">Все</button>
       <button class="tab-btn" onclick="switchTab('announcements')">Объявления</button>
+      <button class="tab-btn" onclick="switchTab('polls')">Опрос</button>
+      <button class="tab-btn" onclick="switchTab('countdown')">Таймер</button>
     </div>
 
     <div class="admin-panel show" id="panelPending"></div>
@@ -486,6 +600,8 @@
     <div class="admin-panel" id="panelBanned"></div>
     <div class="admin-panel" id="panelAll"></div>
     <div class="admin-panel" id="panelAnnouncements"></div>
+    <div class="admin-panel" id="panelPolls"></div>
+    <div class="admin-panel" id="panelCountdown"></div>
 
     <div class="logout-wrap">
       <button class="mc-btn gray" onclick="logout()">Выйти</button>
@@ -553,6 +669,8 @@
   function loadAll() {
     loadPlayers();
     loadAnnouncements();
+    loadPolls();
+    loadCountdown();
   }
 
   // ── Load Players ──
@@ -691,8 +809,15 @@
     // Create announcement form
     html += '<div class="announce-form">';
     html += '  <div class="section-title">Новое объявление</div>';
+    html += '  <div class="rich-toolbar">';
+    html += '    <button class="rich-btn" onclick="wrapText(\'announceText\', \'**\', \'**\')" title="Жирный"><b>Ж</b></button>';
+    html += '    <button class="rich-btn" onclick="wrapText(\'announceText\', \'*\', \'*\')" title="Курсив"><i>К</i></button>';
+    html += '    <button class="rich-btn" onclick="wrapText(\'announceText\', \'__\', \'__\')" title="Подчёркнутый"><u>П</u></button>';
+    html += '    <button class="rich-btn" onclick="wrapText(\'announceText\', \'~~\', \'~~\')" title="Зачёркнутый"><s>З</s></button>';
+    html += '    <button class="rich-btn" onclick="wrapText(\'announceText\', \'`\', \'`\')" title="Код">&lt;/&gt;</button>';
+    html += '  </div>';
     html += '  <div class="form-group" style="margin-bottom:0">';
-    html += '    <textarea class="form-textarea" id="announceText" placeholder="Текст объявления..."></textarea>';
+    html += '    <textarea class="form-textarea" id="announceText" placeholder="Текст объявления... **жирный** *курсив* __подчёркнутый__ ~~зачёркнутый~~ `код`"></textarea>';
     html += '  </div>';
     html += '  <div class="form-message" id="announceMessage"></div>';
     html += '  <button class="mc-btn green full" onclick="postAnnouncement()">Опубликовать</button>';
@@ -705,7 +830,7 @@
         var date = new Date(a.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
         html += '<div class="announce-card">';
         html += '  <div>';
-        html += '    <div class="announce-text">' + escapeHtml(a.message) + '</div>';
+        html += '    <div class="announce-text">' + renderRichText(a.message) + '</div>';
         html += '    <div class="announce-date">' + date + '</div>';
         html += '  </div>';
         html += '  <button class="mc-btn red sm" onclick="deleteAnnouncement(\'' + a.id + '\')">X</button>';
@@ -753,8 +878,8 @@
     tabs.forEach(function(t) { t.classList.remove('active'); });
     panels.forEach(function(p) { p.classList.remove('show'); });
 
-    var map = { pending: 0, approved: 1, rejected: 2, banned: 3, all: 4, announcements: 5 };
-    var panelIds = ['panelPending', 'panelApproved', 'panelRejected', 'panelBanned', 'panelAll', 'panelAnnouncements'];
+    var map = { pending: 0, approved: 1, rejected: 2, banned: 3, all: 4, announcements: 5, polls: 6, countdown: 7 };
+    var panelIds = ['panelPending', 'panelApproved', 'panelRejected', 'panelBanned', 'panelAll', 'panelAnnouncements', 'panelPolls', 'panelCountdown'];
 
     tabs[map[tab]].classList.add('active');
     document.getElementById(panelIds[map[tab]]).classList.add('show');
@@ -774,6 +899,258 @@
       adminLogin();
     }
   });
+
+  // ── Rich text rendering ──
+  function renderRichText(text) {
+    var s = escapeHtml(text);
+    s = s.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+    s = s.replace(/\*(.+?)\*/g, '<i>$1</i>');
+    s = s.replace(/__(.+?)__/g, '<u>$1</u>');
+    s = s.replace(/~~(.+?)~~/g, '<s>$1</s>');
+    s = s.replace(/`(.+?)`/g, '<code>$1</code>');
+    return s;
+  }
+
+  function wrapText(textareaId, before, after) {
+    var ta = document.getElementById(textareaId);
+    if (!ta) return;
+    var start = ta.selectionStart;
+    var end = ta.selectionEnd;
+    var text = ta.value;
+    var selected = text.substring(start, end);
+    ta.value = text.substring(0, start) + before + selected + after + text.substring(end);
+    ta.focus();
+    ta.selectionStart = start + before.length;
+    ta.selectionEnd = end + before.length;
+  }
+
+  // ── Poll Management ──
+  var pollOptionCount = 2;
+
+  async function loadPolls() {
+    var panel = document.getElementById('panelPolls');
+    var html = '';
+
+    // Load active poll
+    var { data: activePoll } = await db.from('polls').select('*').eq('active', true).order('created_at', { ascending: false }).limit(1);
+
+    if (activePoll && activePoll.length > 0) {
+      var poll = activePoll[0];
+      var options = poll.options || [];
+
+      // Load votes with player info
+      var { data: votes } = await db.from('poll_votes').select('option_index, player_id').eq('poll_id', poll.id);
+      var totalVotes = votes ? votes.length : 0;
+
+      // Get player names for voters
+      var playerIds = votes ? votes.map(function(v) { return v.player_id; }) : [];
+      var playerMap = {};
+      if (playerIds.length > 0) {
+        var { data: players } = await db.from('players').select('id, username').in('id', playerIds);
+        if (players) {
+          players.forEach(function(p) { playerMap[p.id] = p.username; });
+        }
+      }
+
+      // Group votes by option
+      var votesPerOption = {};
+      if (votes) {
+        votes.forEach(function(v) {
+          if (!votesPerOption[v.option_index]) votesPerOption[v.option_index] = [];
+          votesPerOption[v.option_index].push(playerMap[v.player_id] || 'Неизвестный');
+        });
+      }
+
+      html += '<div class="poll-active-card">';
+      html += '  <div class="poll-active-title">' + escapeHtml(poll.question) + '</div>';
+
+      options.forEach(function(opt, i) {
+        var count = votesPerOption[i] ? votesPerOption[i].length : 0;
+        var pct = totalVotes > 0 ? Math.round(count / totalVotes * 100) : 0;
+
+        html += '<div style="margin-bottom:10px;">';
+        html += '  <div style="font-family:var(--font-mc-seven); font-size:12px; color:var(--color-hint); text-shadow:2px 2px 0 rgba(0,0,0,.6);">' + escapeHtml(opt) + ' — ' + count + ' голосов (' + pct + '%)</div>';
+        html += '  <div class="poll-result-bar-wrap">';
+        html += '    <div class="poll-result-bar" style="width:' + pct + '%"></div>';
+        html += '  </div>';
+        if (votesPerOption[i] && votesPerOption[i].length > 0) {
+          html += '  <div class="poll-voter-list">Голосовали: ' + votesPerOption[i].map(escapeHtml).join(', ') + '</div>';
+        }
+        html += '</div>';
+      });
+
+      html += '  <div style="font-family:var(--font-mc-five); font-size:10px; color:var(--color-scorpion); margin-top:8px; letter-spacing:1px;">Всего голосов: ' + totalVotes + '</div>';
+      html += '  <div style="display:flex; gap:6px; margin-top:12px;">';
+      html += '    <button class="mc-btn red sm" onclick="closePoll(\'' + poll.id + '\')">Закрыть опрос</button>';
+      html += '    <button class="mc-btn red sm" onclick="deletePoll(\'' + poll.id + '\')">Удалить</button>';
+      html += '  </div>';
+      html += '</div>';
+    }
+
+    // New poll form
+    html += '<div class="announce-form">';
+    html += '  <div class="section-title">Новый опрос</div>';
+    html += '  <div class="form-group">';
+    html += '    <label class="form-label">Вопрос</label>';
+    html += '    <input class="form-input" type="text" id="pollQuestion" placeholder="Вопрос для голосования">';
+    html += '  </div>';
+    html += '  <label class="form-label">Варианты</label>';
+    html += '  <div id="pollOptionsContainer">';
+    html += '    <div class="poll-option-row"><input class="form-input" type="text" placeholder="Вариант 1"></div>';
+    html += '    <div class="poll-option-row"><input class="form-input" type="text" placeholder="Вариант 2"></div>';
+    html += '  </div>';
+    html += '  <button class="mc-btn gray sm" onclick="addPollOption()" style="margin-top:6px; margin-bottom:12px;">+ Добавить вариант</button>';
+    html += '  <div class="form-message" id="pollMessage"></div>';
+    html += '  <button class="mc-btn green full" onclick="createPoll()">Создать опрос</button>';
+    html += '</div>';
+
+    panel.innerHTML = html;
+    pollOptionCount = 2;
+  }
+
+  function addPollOption() {
+    pollOptionCount++;
+    var container = document.getElementById('pollOptionsContainer');
+    var row = document.createElement('div');
+    row.className = 'poll-option-row';
+    row.innerHTML = '<input class="form-input" type="text" placeholder="Вариант ' + pollOptionCount + '"><button class="mc-btn red sm" onclick="this.parentNode.remove()">X</button>';
+    container.appendChild(row);
+  }
+
+  async function createPoll() {
+    var msg = document.getElementById('pollMessage');
+    msg.className = 'form-message'; msg.textContent = '';
+
+    var question = document.getElementById('pollQuestion').value.trim();
+    if (!question) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи вопрос!';
+      return;
+    }
+
+    var inputs = document.querySelectorAll('#pollOptionsContainer .form-input');
+    var options = [];
+    inputs.forEach(function(inp) {
+      var val = inp.value.trim();
+      if (val) options.push(val);
+    });
+
+    if (options.length < 2) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Минимум 2 варианта!';
+      return;
+    }
+
+    // Deactivate any existing active poll
+    await db.from('polls').update({ active: false }).eq('active', true);
+
+    var { error } = await db.from('polls').insert([{
+      question: question,
+      options: options,
+      active: true
+    }]);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      loadPolls();
+    }
+  }
+
+  async function closePoll(id) {
+    if (!confirm('Закрыть этот опрос?')) return;
+    await db.from('polls').update({ active: false }).eq('id', id);
+    loadPolls();
+  }
+
+  async function deletePoll(id) {
+    if (!confirm('Удалить опрос и все голоса? Это нельзя отменить!')) return;
+    await db.from('poll_votes').delete().eq('poll_id', id);
+    await db.from('polls').delete().eq('id', id);
+    loadPolls();
+  }
+
+  // ── Countdown Timer Management ──
+  async function loadCountdown() {
+    var panel = document.getElementById('panelCountdown');
+    var html = '';
+
+    // Load active countdown
+    var { data: active } = await db.from('countdown').select('*').eq('active', true).order('created_at', { ascending: false }).limit(1);
+
+    if (active && active.length > 0) {
+      var timer = active[0];
+      var dateStr = new Date(timer.target_date).toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      html += '<div class="countdown-active-card">';
+      html += '  <div class="countdown-active-label">' + escapeHtml(timer.label || 'Без названия') + '</div>';
+      html += '  <div class="countdown-active-date">Дата: ' + dateStr + '</div>';
+      html += '  <div style="display:flex; gap:6px; margin-top:10px;">';
+      html += '    <button class="mc-btn red sm" onclick="deleteCountdown(\'' + timer.id + '\')">Удалить таймер</button>';
+      html += '  </div>';
+      html += '</div>';
+    }
+
+    // New countdown form
+    html += '<div class="countdown-form">';
+    html += '  <div class="section-title">Новый таймер</div>';
+    html += '  <div class="form-group">';
+    html += '    <label class="form-label">Название</label>';
+    html += '    <input class="form-input" type="text" id="countdownLabel" placeholder="Например: До ивента">';
+    html += '  </div>';
+    html += '  <div class="form-group">';
+    html += '    <label class="form-label">Дата и время</label>';
+    html += '    <input class="form-input" type="datetime-local" id="countdownDate" style="color-scheme:dark;">';
+    html += '  </div>';
+    html += '  <div class="form-message" id="countdownMessage"></div>';
+    html += '  <button class="mc-btn green full" onclick="createCountdown()">Запустить таймер</button>';
+    html += '</div>';
+
+    panel.innerHTML = html;
+  }
+
+  async function createCountdown() {
+    var msg = document.getElementById('countdownMessage');
+    msg.className = 'form-message'; msg.textContent = '';
+
+    var label = document.getElementById('countdownLabel').value.trim();
+    var dateVal = document.getElementById('countdownDate').value;
+
+    if (!label) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Введи название!';
+      return;
+    }
+    if (!dateVal) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Выбери дату!';
+      return;
+    }
+
+    var targetDate = new Date(dateVal).toISOString();
+
+    // Deactivate existing timers
+    await db.from('countdown').update({ active: false }).eq('active', true);
+
+    var { error } = await db.from('countdown').insert([{
+      label: label,
+      target_date: targetDate,
+      active: true
+    }]);
+
+    if (error) {
+      msg.className = 'form-message error';
+      msg.textContent = 'Ошибка: ' + error.message;
+    } else {
+      loadCountdown();
+    }
+  }
+
+  async function deleteCountdown(id) {
+    if (!confirm('Удалить таймер?')) return;
+    await db.from('countdown').delete().eq('id', id);
+    loadCountdown();
+  }
 
   if (sessionStorage.getItem('admin') === 'true') {
     document.getElementById('loginSection').style.display = 'none';
